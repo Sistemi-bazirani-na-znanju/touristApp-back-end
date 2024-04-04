@@ -1,0 +1,12 @@
+package rules
+
+import com.model.Customer;
+import com.model.Order;
+
+rule "Categorize Customer - Gold"
+    when
+	     $c: Customer( category == Customer.Category.NA )
+	     $o: Order( customer == $c, orderLines.size() > 10 )
+    then
+        modify($c){ setCategory(Customer.Category.GOLD); }
+end

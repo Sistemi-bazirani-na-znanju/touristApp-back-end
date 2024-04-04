@@ -1,0 +1,37 @@
+package rules;
+
+import com.model.Coupon;
+import com.model.Order;
+import com.model.Customer;
+import java.util.Date;
+
+rule "Create Coupons for Gold Customers"
+    when
+        $o: Order( $customer: customer )
+        $c: Customer(this == $customer, category == Category.GOLD )
+    then
+        insert(new Coupon($c, $o, Coupon.CouponType.POINTS));        
+end 
+
+rule "Init current date"
+	when
+	then 
+		insert(new Date());
+end
+
+rule "Expire coupons"
+	when
+		$now: Date( )
+		$cp: Coupon( validUntil < $now )
+	then
+		delete($cp);
+		System.out.println("Deleted: " + $cp);
+end
+
+rule "Execute coupon"
+	when
+		$o: Order()
+		$cp: Coupon(order == $o)
+	then
+		System.out.println("We have a coupon for this order!");
+end
