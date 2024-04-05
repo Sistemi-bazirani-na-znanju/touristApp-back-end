@@ -1,10 +1,8 @@
 package tourstApp.controller;
 
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,13 +22,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import tourstApp.dto.ArrangementDTO;
 import tourstApp.dto.ExcursionDTO;
-import tourstApp.dto.RatingDTO;
 import tourstApp.model.Arrangement;
 import tourstApp.model.Excursion;
-import tourstApp.model.Rating;
-import tourstApp.service.ArrangementService;
 import tourstApp.service.ExcursionService;
 
 @Tag(name = "Excursion controller", description = "Excursion API")
