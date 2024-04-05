@@ -1,8 +1,11 @@
 package tourstApp.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
@@ -41,4 +44,7 @@ public class Excursion extends GenericEntity{
     @Column
     @NotNull
     private double totalPrice;
+
+    @ManyToMany(mappedBy = "chosenExcursions")
+    private List<Reservation> reservations;
 }
