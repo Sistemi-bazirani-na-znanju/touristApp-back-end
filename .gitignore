@@ -22,3 +22,23 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+
+### VS Code ###
+.vscode/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+.settings/org.eclipse.jdt.core.prefs
+.project
+.classpath
+/target
+.classpath
+*.prefs
+/.settings
+.settings/org.eclipse.jdt.core.prefs
