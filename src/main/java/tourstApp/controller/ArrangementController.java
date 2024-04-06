@@ -83,7 +83,7 @@ public class ArrangementController {
         arrangement.setRatings(ratings);
 
 
-        return new ResponseEntity<>(new ArrangementDTO(arrangement), HttpStatus.FOUND);
+        return new ResponseEntity<>(new ArrangementDTO(arrangement), HttpStatus.OK);
     }
 
     @Operation(summary = "Create new arrangement", description = "Creates new arrangement", method = "POST")

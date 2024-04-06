@@ -71,7 +71,7 @@ public class ExcursionController {
             return ResponseEntity.notFound().build();
         }
 
-        return new ResponseEntity<>(new ExcursionDTO(excursion), HttpStatus.FOUND);
+        return new ResponseEntity<>(new ExcursionDTO(excursion), HttpStatus.OK);
     }
 
     @Operation(summary = "Create new excursion", description = "Creates new excursion", method = "POST")
@@ -93,7 +93,7 @@ public class ExcursionController {
         excursion = excursionService.save(excursion);
 
 
-        return new ResponseEntity<>(new ExcursionDTO(excursion), HttpStatus.FOUND);
+        return new ResponseEntity<>(new ExcursionDTO(excursion), HttpStatus.OK);
     }
 
 
