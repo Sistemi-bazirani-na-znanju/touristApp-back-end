@@ -8,9 +8,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import tourstApp.dto.AutenticationRequest;
+import tourstApp.dto.AuthenticationRequest;
 import tourstApp.dto.UserDTO;
-import tourstApp.dto.UserTokenState;
+import tourstApp.dto.AuthenticationResponse;
 import tourstApp.exeption.ResourceConflictException;
 import tourstApp.model.User;
 import tourstApp.service.AuthenticationService;
@@ -30,35 +30,35 @@ public class AuthenticationController {
     UserService userService;
 
 
-    @PostMapping(value ="/register", consumes = "application/json")
-    public ResponseEntity<UserDTO> register(@RequestBody UserDTO request){
+    @PostMapping(value = "/register", consumes = "application/json")
+    public ResponseEntity<AuthenticationResponse> register(@RequestBody UserDTO request) {
         User existingUser = userService.findByEmail(request.getEmail());
 
-        if(existingUser != null){
+        if (existingUser != null) {
             throw new ResourceConflictException(request.getId(), "Username already exists");
         }
 
-        return ResponseEntity.ok(new UserDTO(authenticationService.register(request)));
+        User registeredUser = authenticationService.register(request);
+
+        if (registeredUser != null) {
+            return ResponseEntity.ok(
+                    authenticationService.authenticate(
+                            new AuthenticationRequest(request.getEmail(), request.getPassword())
+                    )
+            );
+        } else {
+            throw new ResourceConflictException(request.getId(), "Authentication faild");
+        }
+
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<UserTokenState> authenticate(@RequestBody AutenticationRequest request){
-
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                request.getUsername(),
-                request.getPassword()
-
-        ));
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        User user = (User) authentication.getPrincipal();
-        String jwt  = tokenUtils.generateToken(user.getUsername());
-        int expiresIn = tokenUtils.getExpiredIn();
-        return ResponseEntity.ok(new UserTokenState(jwt, expiresIn));
+    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request) {
+        return ResponseEntity.ok(authenticationService.authenticate(request));
     }
 
     @GetMapping
-    public ResponseEntity<String> sayHello(){
+    public ResponseEntity<String> sayHello() {
         return ResponseEntity.ok("Helloooasdas");
     }
 

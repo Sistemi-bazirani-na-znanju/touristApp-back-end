@@ -3,17 +3,17 @@ package tourstApp.dto;
 import lombok.Data;
 
 @Data
-public class UserTokenState {
+public class AuthenticationResponse {
 
     private String accessToken;
     private Long expiresIn;
 
-    public UserTokenState() {
+    public AuthenticationResponse() {
         this.accessToken = null;
         this.expiresIn = null;
     }
 
-    public UserTokenState(String accessToken, long expiresIn) {
+    public AuthenticationResponse(String accessToken, long expiresIn) {
         this.accessToken = accessToken;
         this.expiresIn = expiresIn;
     }

@@ -24,11 +24,11 @@ public class User implements UserDetails {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "firstName", nullable = false)
+    private String firstName;
 
-    @Column(name = "surname", nullable = false)
-    private String surname;
+    @Column(name = "lastName", nullable = false)
+    private String lastName;
 
     @OneToOne(fetch = FetchType.EAGER)
     private Role role;
@@ -36,12 +36,12 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(Long id, String email, String password, String name, String surname) {
+    public User(Long id, String email, String password, String firstName, String lastName) {
         this.id = id;
         this.email = email;
         this.password = password;
-        this.name = name;
-        this.surname = surname;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     @Override

@@ -43,8 +43,9 @@ public class SecurityConfiguration {
 
                 .sessionManagement((sess) -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((requests) -> requests
-                        .antMatchers(WHITE_LIST_URL).permitAll()
-                        .anyRequest().authenticated())
+                        //.antMatchers(WHITE_LIST_URL).permitAll()
+                        //.anyRequest().authenticated())
+                        .anyRequest().permitAll())
                 .cors(Customizer.withDefaults())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .csrf(AbstractHttpConfigurer::disable)

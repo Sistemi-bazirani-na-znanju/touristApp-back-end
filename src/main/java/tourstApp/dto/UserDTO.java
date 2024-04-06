@@ -9,20 +9,20 @@ public class UserDTO {
     private Long id;
     private String email;
     private String password;
-    private String name;
-    private String surname;
+    private String firstName;
+    private String lastName;
     private String role;
 
     public UserDTO(User user) {
-        this(user.getId(), user.getEmail(), user.getPassword(), user.getName(),user.getSurname(), user.getRole().getName());
+        this(user.getId(), user.getEmail(), user.getPassword(), user.getFirstName(),user.getLastName(), user.getRole().getName());
     }
 
-    public UserDTO(Long id, String email, String password, String name, String surname, String role) {
+    public UserDTO(Long id, String email, String password, String firstName, String lastName, String role) {
         this.id = id;
         this.email = email;
         this.password = password;
-        this.name = name;
-        this.surname = surname;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.role = role;
     }
 }
