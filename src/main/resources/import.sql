@@ -18,3 +18,6 @@ INSERT INTO excursion (arrangement_id, name, price, type) VALUES (2, 'Excursion 
 INSERT INTO rating (arrangement_id, rating_value) VALUES (1, 4.8);
 INSERT INTO rating (arrangement_id, rating_value) VALUES (1, 4.6);
 INSERT INTO rating (arrangement_id, rating_value) VALUES (2, 4.2);
+
+
+INSERT INTO Public.reservation (number_of_people, total_price, arrangement_id) VALUES (2, 250.0, 1);
