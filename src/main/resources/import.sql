@@ -9,9 +9,9 @@ INSERT INTO arrangement (name, type, price, average_rating) VALUES ('Arrangement
 
 -- Insert Excursion data
 -- Please note that you need to specify arrangement_id based on your existing Arrangement data
-INSERT INTO excursion (arrangement_id, name, price, number_of_people_registered, type, total_price) VALUES (1, 'Excursion 1', 500.0, 20, 0, 1000.0);
-INSERT INTO excursion (arrangement_id, name, price, number_of_people_registered, type, total_price) VALUES (1, 'Excursion 2', 6000.0, 25, 1, 1200.0);
-INSERT INTO excursion (arrangement_id, name, price, number_of_people_registered, type, total_price) VALUES (2, 'Excursion 3', 2000.0, 30, 2, 1400.0);
+INSERT INTO excursion (arrangement_id, name, price, type) VALUES (1, 'Excursion 1', 500.0, 0);
+INSERT INTO excursion (arrangement_id, name, price, type) VALUES (1, 'Excursion 2', 6000.0, 1);
+INSERT INTO excursion (arrangement_id, name, price, type) VALUES (2, 'Excursion 3', 2000.0, 2);
 
 -- Insert Rating data
 -- Please note that you need to specify arrangement_id based on your existing Arrangement data

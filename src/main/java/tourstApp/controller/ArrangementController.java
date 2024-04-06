@@ -113,9 +113,7 @@ public class ArrangementController {
 
                 excursion.setName(excursionDTO.getName());
                 excursion.setPrice(excursionDTO.getPrice());
-                excursion.setNumberOfPeopleRegistered(excursionDTO.getNumberOfPeopleRegistered());
                 excursion.setType(excursionDTO.getType());
-                excursion.setTotalPrice(excursionDTO.getTotalPrice());
 
                 excursion.setArrangement(arrangement);
                 
