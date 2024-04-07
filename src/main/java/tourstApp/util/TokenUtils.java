@@ -65,7 +65,7 @@ public class TokenUtils {
                 .claim("id", user.getId())
                 .claim("firstName", user.getFirstName())
                 .claim("lastName", user.getLastName())
-                .claim("roles", user.getRole())
+                .claim("role", user.getRole())
                 .setAudience(generateAudience())
                 .setIssuedAt(new Date())
                 .setExpiration(generateExpirationDate())
