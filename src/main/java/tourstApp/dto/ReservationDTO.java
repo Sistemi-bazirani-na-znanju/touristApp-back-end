@@ -21,12 +21,16 @@ public class ReservationDTO {
 
     private double totalPrice;
 
+    private ArrangementDTO arrangement;
+
     private List<ExcursionDTO> chosenExcursions;
 
     public ReservationDTO(Reservation reservation) {
 
         this.numberOfPeople = reservation.getNumberOfPeople();
         this.totalPrice = reservation.getTotalPrice();
+       // this.arrangement = reservation.getArrangement();
+       this.arrangement = new ArrangementDTO(reservation.getArrangement());
         if (reservation.getChosenExcursions() != null) {
         this.chosenExcursions = reservation.getChosenExcursions().stream()
                                     .map(ExcursionDTO::new)

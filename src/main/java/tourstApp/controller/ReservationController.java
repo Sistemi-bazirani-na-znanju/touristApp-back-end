@@ -54,10 +54,32 @@ public class ReservationController {
     public ResponseEntity<ReservationDTO> createReservation(@RequestBody ReservationDTO reservationDTO) {
         Reservation reservation = new Reservation();
 
-        // Set the number of people and total price from the DTO
         reservation.setNumberOfPeople(reservationDTO.getNumberOfPeople());
         reservation.setTotalPrice(reservationDTO.getTotalPrice());
+        if (reservationDTO.getArrangement() != null) {
+            Arrangement arrangement = arrangementService.findById(reservationDTO.getArrangement().getId());
 
+            reservation.setArrangement(arrangement);
+        }
+
+        List<ExcursionDTO> excursionDTOs = reservationDTO.getChosenExcursions();
+
+        if(excursionDTOs != null){
+            List<Excursion> excursions = new ArrayList<>();
+
+            for(ExcursionDTO excursionDTO : excursionDTOs){
+                Excursion excursion = new Excursion();
+
+                excursion.setName(excursionDTO.getName());
+                excursion.setPrice(excursionDTO.getPrice());
+                excursion.setType(excursionDTO.getType());
+
+                excursion.setArrangement(reservation.getArrangement());
+                
+                excursions.add(excursion);
+            }
+            reservation.setChosenExcursions(excursions);
+        }       
         Reservation savedReservation = reservationService.save(reservation);
 
         ReservationDTO savedReservationDTO = new ReservationDTO(savedReservation);
