@@ -1,5 +1,6 @@
 package tourstApp.model;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -37,6 +38,10 @@ public class Arrangement extends GenericEntity{
     @Column
     @NotNull
     private double averageRating;
+
+    @Column
+    @NotNull
+    private LocalDateTime date;
 
     
     @OneToMany(mappedBy = "arrangement", fetch = FetchType.LAZY, cascade = javax.persistence.CascadeType.ALL)

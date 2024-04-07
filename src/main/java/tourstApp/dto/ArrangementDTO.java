@@ -1,5 +1,6 @@
 package tourstApp.dto;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +29,8 @@ public class ArrangementDTO {
 
     private double averageRating;
 
+    private LocalDateTime date;
+
     private List<ExcursionDTO> excursions;
 
     private List<RatingDTO> ratings;
@@ -39,6 +42,7 @@ public class ArrangementDTO {
         this.type = arrangement.getType();
         this.price = arrangement.getPrice();
         this.averageRating = arrangement.getAverageRating();
+        this.date = arrangement.getDate();
         
         if (arrangement.getExcursions() != null) {
             this.excursions = new ArrayList<>();

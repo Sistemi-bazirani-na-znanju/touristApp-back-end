@@ -104,6 +104,7 @@ public class ArrangementController {
         arrangement.setType(arrangementDTO.getType());
         arrangement.setPrice(arrangementDTO.getPrice());
         arrangement.setAverageRating(arrangementDTO.getAverageRating());
+        arrangement.setDate(arrangementDTO.getDate());
 
         List<ExcursionDTO> excursionDTOs = arrangementDTO.getExcursions();
         List<RatingDTO > ratingDTOs = arrangementDTO.getRatings();
@@ -168,6 +169,7 @@ public class ArrangementController {
         arrangement.setType(arrangementDTO.getType());
         arrangement.setPrice(arrangementDTO.getPrice());
         arrangement.setAverageRating(arrangementDTO.getAverageRating());
+        arrangement.setDate(arrangementDTO.getDate());
         
 
         arrangement = arrangementService.save(arrangement);
@@ -195,6 +197,7 @@ public class ArrangementController {
         arrangement.setType(arrangementDTO.getType());
         arrangement.setPrice(arrangementDTO.getPrice());
         arrangement.setAverageRating(arrangementDTO.getAverageRating());
+        arrangement.setDate(arrangementDTO.getDate());
         
         List<RatingDTO> ratingDTOs = arrangementDTO.getRatings();
         arrangement.getRatings().clear();

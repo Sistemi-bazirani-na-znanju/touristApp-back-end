@@ -3,9 +3,10 @@ INSERT INTO demo_model(name) VALUES ('Prvi');
 INSERT INTO demo_model(name) VALUES ('Drugi');
 
 -- Insert Arrangement data
-INSERT INTO arrangement (name, type, price, average_rating) VALUES ('Arrangement 1', 0, 100.0, 4.5);
-INSERT INTO arrangement (name, type, price, average_rating) VALUES ('Arrangement 2', 0, 150.0, 4.0);
-INSERT INTO arrangement (name, type, price, average_rating) VALUES ('Arrangement 3', 0, 200.0, 4.2);
+
+INSERT INTO arrangement (name, type, price, average_rating, date) VALUES ('Arrangement 1', 0, 100.0, 4.5, '2023-01-01T00:00:00');
+INSERT INTO arrangement (name, type, price, average_rating, date) VALUES ('Arrangement 2', 0, 150.0, 4.0, '2023-01-01T00:00:00');
+INSERT INTO arrangement (name, type, price, average_rating, date) VALUES ('Arrangement 3', 0, 200.0, 4.2, '2023-01-01T00:00:00');
 
 -- Insert Excursion data
 -- Please note that you need to specify arrangement_id based on your existing Arrangement data
