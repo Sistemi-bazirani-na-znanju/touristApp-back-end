@@ -29,6 +29,7 @@ import tourstApp.model.Arrangement;
 import tourstApp.model.Excursion;
 import tourstApp.model.Rating;
 import tourstApp.service.ArrangementService;
+import tourstApp.service.RatingService;
 
 @Tag(name = "Arrangement controller", description = "Arrangement API")
 @RestController
@@ -37,6 +38,9 @@ public class ArrangementController {
     
     @Autowired
     private ArrangementService arrangementService;
+
+    @Autowired
+    private RatingService ratingService;
 
     @Operation(summary = "Get all arrangements", description = "Gets all arrangements.", method = "GET")
     @ApiResponses(value = {
@@ -100,6 +104,7 @@ public class ArrangementController {
         arrangement.setType(arrangementDTO.getType());
         arrangement.setPrice(arrangementDTO.getPrice());
         arrangement.setAverageRating(arrangementDTO.getAverageRating());
+        arrangement.setDate(arrangementDTO.getDate());
 
         List<ExcursionDTO> excursionDTOs = arrangementDTO.getExcursions();
         List<RatingDTO > ratingDTOs = arrangementDTO.getRatings();
@@ -164,7 +169,45 @@ public class ArrangementController {
         arrangement.setType(arrangementDTO.getType());
         arrangement.setPrice(arrangementDTO.getPrice());
         arrangement.setAverageRating(arrangementDTO.getAverageRating());
+        arrangement.setDate(arrangementDTO.getDate());
         
+
+        arrangement = arrangementService.save(arrangement);
+
+        return new ResponseEntity<>(new ArrangementDTO(arrangement), HttpStatus.OK);
+    }
+
+
+
+    @Operation(summary = "Update arrangement ratings", description = "Update arrangement ratings", method = "PUT")
+	@ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "OK",
+                     content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Arrangement.class)) }),
+        @ApiResponse(responseCode = "404", description = "Company not found.", content = @Content)
+	})
+	@PutMapping(value = "ratings/{id}",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ArrangementDTO> updateArrangementRatings(@PathVariable Integer id, @RequestBody ArrangementDTO arrangementDTO) {
+        Arrangement arrangement = arrangementService.findByIdWithRatings(id);
+
+        if (arrangement == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        arrangement.setName(arrangementDTO.getName());
+        arrangement.setType(arrangementDTO.getType());
+        arrangement.setPrice(arrangementDTO.getPrice());
+        arrangement.setAverageRating(arrangementDTO.getAverageRating());
+        arrangement.setDate(arrangementDTO.getDate());
+        
+        List<RatingDTO> ratingDTOs = arrangementDTO.getRatings();
+        arrangement.getRatings().clear();
+        for(RatingDTO ratingDTO : ratingDTOs){
+            Rating rating = new Rating();
+            rating.setRatingValue(ratingDTO.getRatingValue());
+            rating.setArrangement(arrangement);
+            ratingService.save(rating);
+            arrangement.getRatings().add(rating);
+        }
 
         arrangement = arrangementService.save(arrangement);
 

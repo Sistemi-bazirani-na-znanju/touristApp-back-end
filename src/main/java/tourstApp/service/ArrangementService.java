@@ -41,5 +41,8 @@ public class ArrangementService {
     public List<Rating> getRatingsByArrangementId(Integer arrangementId){
         return arrangementRepository.findRatingsByArrangementId(arrangementId);
     }
-    
+
+    public Arrangement findByIdWithRatings(Integer id) {
+        return arrangementRepository.findByIdWithRatings(id);
+    }
 }
