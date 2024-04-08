@@ -106,4 +106,25 @@ public class ReservationController {
         ReservationDTO savedReservationDTO = new ReservationDTO(savedReservation);
         return new ResponseEntity<>(savedReservationDTO, HttpStatus.CREATED);
     }
+
+    
+
+    @Operation(summary = "Get all reservations", description = "Gets all reservations.", method = "GET")
+    @ApiResponses(value = {
+    @ApiResponse(responseCode = "200", description = "All reservations fetched successfully.",
+                     content = @Content(mediaType = "application/json",
+                     array = @ArraySchema(schema = @Schema(implementation = Reservation.class))))
+    })
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<ReservationDTO>> getAll() {
+        List<Reservation> reservations = reservationService.findAll();
+
+
+        List<ReservationDTO> reservationsDto = new ArrayList<>();
+        for(Reservation r : reservations){
+            reservationsDto.add(new ReservationDTO(r));
+        }
+
+        return new ResponseEntity<>(reservationsDto, HttpStatus.OK);
+    }
 }

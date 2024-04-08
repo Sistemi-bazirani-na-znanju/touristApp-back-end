@@ -26,6 +26,8 @@ public class ReservationDTO {
 
     private Integer arrangementId;
 
+    private String arrangementName;
+
     private List<ExcursionDTO> chosenExcursions;
 
     public ReservationDTO(Reservation reservation) {
@@ -36,6 +38,7 @@ public class ReservationDTO {
         
       //  this.arrangement = reservation.getArrangement();
         this.arrangementId = reservation.getArrangement().getId();
+        this.arrangementName = reservation.getArrangement().getName();
         if (reservation.getChosenExcursions() != null) {
             this.chosenExcursions = new ArrayList<>();
             for (Excursion excursion : reservation.getChosenExcursions()) {

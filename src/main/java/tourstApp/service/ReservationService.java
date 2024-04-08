@@ -21,7 +21,14 @@ public class ReservationService {
     }
 
     public List<Reservation> findAll(){
-        return reservationRepository.findAll();
+
+        List<Reservation> reservations = reservationRepository.findAll();
+        for (Reservation reservation : reservations) {
+            List<Excursion> excursions = reservationRepository.findExcursionsByReservationId(reservation.getId());
+            reservation.setChosenExcursions(excursions);
+        }
+        return reservations;
+
     }
 
     public Reservation save(Reservation reservation) {
