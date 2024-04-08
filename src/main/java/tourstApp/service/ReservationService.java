@@ -25,7 +25,7 @@ public class ReservationService {
     }
 
     public Reservation save(Reservation reservation) {
-        applyDiscountRule(reservation);
+      //  applyDiscountRule(reservation);
         return reservationRepository.save(reservation);
     }
 

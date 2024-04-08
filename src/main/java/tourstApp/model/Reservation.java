@@ -35,7 +35,7 @@ public class Reservation extends GenericEntity {
     @JoinColumn(name = "arrangement_id")
     private Arrangement arrangement;
     
-    @ManyToMany
+    @ManyToMany( fetch = FetchType.EAGER)
     @JoinTable(
         name = "reservation_excursion",
         joinColumns = @JoinColumn(name = "reservation_id"),

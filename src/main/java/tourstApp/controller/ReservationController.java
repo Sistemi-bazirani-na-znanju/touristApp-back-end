@@ -31,6 +31,7 @@ import tourstApp.model.Arrangement;
 import tourstApp.model.Excursion;
 import tourstApp.model.Reservation;
 import tourstApp.service.ArrangementService;
+import tourstApp.service.ExcursionService;
 import tourstApp.service.ReservationService;
 
 @Tag(name = "Excursion controller", description = "Excursion API")
@@ -44,6 +45,9 @@ public class ReservationController {
     @Autowired
     private ReservationService reservationService;
 
+    @Autowired
+    private ExcursionService excursionService;
+
 
     @Operation(summary = "Create new reservation", description = "Creates new reservation", method = "POST")
 	@ApiResponses(value = {
@@ -56,13 +60,16 @@ public class ReservationController {
 
         reservation.setNumberOfPeople(reservationDTO.getNumberOfPeople());
         reservation.setTotalPrice(reservationDTO.getTotalPrice());
-        if (reservationDTO.getArrangement() != null) {
-            Arrangement arrangement = arrangementService.findById(reservationDTO.getArrangement().getId());
+        //  if (reservationDTO.getArrengment() != null) {
+        //      Arrangement arrangement = reservationDTO.getArrengment();
+             
 
-            reservation.setArrangement(arrangement);
-        }
+        //    //  System.out.println("ime je: " + arrangement.getName());
+            
+        //  }
 
         List<ExcursionDTO> excursionDTOs = reservationDTO.getChosenExcursions();
+       // reservation.setChosenExcursions(reservationDTO.getChosenExcursions());
 
         if(excursionDTOs != null){
             List<Excursion> excursions = new ArrayList<>();
@@ -70,15 +77,29 @@ public class ReservationController {
             for(ExcursionDTO excursionDTO : excursionDTOs){
                 Excursion excursion = new Excursion();
 
-                excursion.setName(excursionDTO.getName());
-                excursion.setPrice(excursionDTO.getPrice());
-                excursion.setType(excursionDTO.getType());
+                excursion = excursionService.findById(excursionDTO.getId());
+                excursion.setArrangement(arrangementService.findById(reservationDTO.getArrangementId()));
+          //     excursion = excursionService.findById(excursionDTO.getId());
+                // excursion.setName(excursionDTO.getName());
+                // excursion.setPrice(excursionDTO.getPrice());
+                // excursion.setType(excursionDTO.getType());
 
-                excursion.setArrangement(reservation.getArrangement());
+                // excursion.setNumberOfPeopleRegistered(excursionDTO.getNumberOfPeopleRegistered());;
+                // excursion.setArrangement(arrangementService.findById(reservationDTO.getArrangementId()));
+                // excursion.setTotalPrice(excursionDTO.getTotalPrice());
                 
+          //     excursion.setArrangement(reservation.getArrangement());
                 excursions.add(excursion);
             }
+            
             reservation.setChosenExcursions(excursions);
+            reservation.setArrangement(arrangementService.arrangementDetails(reservationDTO.getArrangementId()));
+         //   System.out.println("aranzman je: " + reservation.getArrangement().toString());
+
+            // reservation.setArrangement(arrangementService.findById(reservationDTO.getArrengmentId()));
+            // reservation.getArrangement().
+            // reservation.getArrangement().setExcursions(reservationDTO.getArrengment().getExcursions());;
+        //    reservation.getArrangement().setExcursions();
         }       
         Reservation savedReservation = reservationService.save(reservation);
 
