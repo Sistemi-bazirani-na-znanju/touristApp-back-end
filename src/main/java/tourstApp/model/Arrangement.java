@@ -47,7 +47,7 @@ public class Arrangement extends GenericEntity{
     @OneToMany(mappedBy = "arrangement", fetch = FetchType.LAZY, cascade = javax.persistence.CascadeType.ALL)
     private List<Excursion> excursions;
 
-    @OneToMany(mappedBy = "arrangement", fetch = FetchType.LAZY, cascade = javax.persistence.CascadeType.ALL)
+    @OneToMany(mappedBy = "arrangement", fetch = FetchType.EAGER, cascade = javax.persistence.CascadeType.ALL)
     private List<Rating> ratings;
 
     public void setExcursions(List<Excursion> excursions) {

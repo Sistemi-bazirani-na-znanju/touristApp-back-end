@@ -2,6 +2,8 @@ package tourstApp.service;
 
 import java.util.List;
 
+import org.kie.api.KieServices;
+import org.kie.api.event.rule.DebugAgendaEventListener;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +16,7 @@ public class ReservationService {
     @Autowired
     private ReservationRepository reservationRepository;
 
-    private KieContainer kieContainer;
+   // private KieContainer kieContainer;
 
     public Reservation findById(Integer id){
         return reservationRepository.findById(id).orElse(null);
@@ -32,7 +34,7 @@ public class ReservationService {
     }
 
     public Reservation save(Reservation reservation) {
-      //  applyDiscountRule(reservation);
+        applyDiscountRule(reservation);
         return reservationRepository.save(reservation);
     }
 
@@ -41,14 +43,18 @@ public class ReservationService {
     }
 
     private void applyDiscountRule(Reservation reservation) {
-        
-        KieSession kieSession = kieContainer.newKieSession();
-        kieSession.insert(reservation);
-        kieSession.fireAllRules();
-        kieSession.dispose();
-
+        KieServices ks = KieServices.Factory.get();
+		KieContainer kieContainer = ks.getKieClasspathContainer();
+        KieSession kieSession = kieContainer.newKieSession("ksession-rules");
+        kieSession.addEventListener(new DebugAgendaEventListener());
+        try {
+            kieSession.insert(reservation);
+            kieSession.fireAllRules();
+        } finally {
+       //     kieSession.dispose(); 
+        }
     }
-    public void setKieContainer(KieContainer kieContainer) {
-        this.kieContainer = kieContainer;
-    }
+    // public void setKieContainer(KieContainer kieContainer) {
+    //     this.kieContainer = kieContainer;
+    // }
 }

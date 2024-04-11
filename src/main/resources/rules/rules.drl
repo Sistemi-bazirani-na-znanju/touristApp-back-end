@@ -1,0 +1,104 @@
+package rules
+
+import tourstApp.model.Reservation;
+import tourstApp.model.Excursion;
+import tourstApp.model.ExcursionType;
+import java.util.List;
+import java.util.Date;
+
+
+rule "Excursion discount for multiple people"
+when
+    $reservation : Reservation(numberOfPeople > 1)
+then
+     double totalExcursionPrice = 0.0;
+    for (Excursion excursion : $reservation.getChosenExcursions()) {
+        totalExcursionPrice += excursion.getPrice();
+    }
+    
+    double discount = 0.1;
+    double discountedExcursionPrice = totalExcursionPrice * (1 - discount);
+    
+    double totalPrice = $reservation.getArrangement().getPrice() * $reservation.getNumberOfPeople() + discountedExcursionPrice * $reservation.getNumberOfPeople();
+    
+    $reservation.setTotalPrice(totalPrice);
+    
+    update($reservation);
+end
+
+
+
+rule "Excursion discount for price over 3000"
+when
+    $reservation : Reservation()
+   // $excursions : List() from $reservation.getChosenExcursions()
+then
+    double totalReservationPrice = 0.0;
+    for (Excursion excursion : $reservation.getChosenExcursions()) {
+        double totalExcursionPrice = 0.0;
+        totalExcursionPrice += excursion.getPrice() * $reservation.getNumberOfPeople();
+        if (totalExcursionPrice > 900) {
+            double discount = 0.05;
+            double discountedExcursionPrice = totalExcursionPrice * (1 - discount);
+            totalReservationPrice += discountedExcursionPrice;
+        } else {
+            totalReservationPrice += excursion.getPrice() * $reservation.getNumberOfPeople();
+        }
+    }
+    
+    $reservation.setTotalPrice($reservation.getArrangement().getPrice() * $reservation.getNumberOfPeople() + totalReservationPrice);
+    
+    update($reservation);
+end
+
+
+
+
+rule "Apply Discount for Historical Excursions"
+when
+    $reservation : Reservation(numberOfPeople > 1)
+    $historicalExcursion : Excursion(type == ExcursionType.HISTORICAL) from $reservation.getChosenExcursions()
+    exists(
+        Excursion(type == ExcursionType.HISTORICAL, $price : price) from $reservation.getChosenExcursions()
+        and eval($price * $reservation.getNumberOfPeople() > 900)
+    )
+then
+    double totalReservationPrice = 0.0;
+    for (Excursion excursion : $reservation.getChosenExcursions()) {
+        double totalExcursionPrice = 0.0;
+        totalExcursionPrice += excursion.getPrice() * $reservation.getNumberOfPeople();
+        if (totalExcursionPrice > 900 && excursion.getType() == ExcursionType.HISTORICAL) {
+            double discount = 0.07;
+            double discountedExcursionPrice = totalExcursionPrice * (1 - discount);
+            totalReservationPrice += discountedExcursionPrice;
+        } else {
+            totalReservationPrice += excursion.getPrice() * $reservation.getNumberOfPeople();
+        }
+    }
+    
+    $reservation.setTotalPrice($reservation.getArrangement().getPrice() * $reservation.getNumberOfPeople() + totalReservationPrice);
+    
+    update($reservation);
+end
+
+rule "Apply 10% Discount for Arrangements with 3 or More Excursions"
+when
+    $reservation : Reservation(numberOfPeople > 1)
+    $excursions : List(size >= 3) from $reservation.getChosenExcursions()
+then
+    $reservation.setTotalPrice($reservation.getTotalPrice() * 0.9);
+    
+    update($reservation);
+end
+
+rule "Apply 15% Discount for Arrangements with 5 or More Excursions"
+when
+    $reservation : Reservation(numberOfPeople > 1)
+    $excursions : List(size >= 5) from $reservation.getChosenExcursions()
+then
+    $reservation.setTotalPrice($reservation.getTotalPrice() * 0.85);
+    
+    update($reservation);
+end
+
+
