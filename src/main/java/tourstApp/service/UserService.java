@@ -22,5 +22,10 @@ public class UserService {
         return new UserDTO(user);
     }
 
+    public User findUserById(Long id){
+        User user = userRepository.findUserById(id);
+        return user;
+    }
+
 
 }

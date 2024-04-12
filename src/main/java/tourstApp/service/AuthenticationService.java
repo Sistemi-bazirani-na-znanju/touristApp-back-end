@@ -16,8 +16,6 @@ import tourstApp.model.User;
 import tourstApp.repository.UserRepository;
 import tourstApp.util.TokenUtils;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {

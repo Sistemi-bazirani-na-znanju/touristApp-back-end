@@ -212,7 +212,7 @@
                             <classpathPrefix>${user.home}/.m2/repository/</classpathPrefix>
                             <classpathLayoutType>repository</classpathLayoutType>
                             <!-- Navedite naziv klase za koju zelite da bude entry point u program -->
-                            <mainClass>tourstApp.app.DeleteExample</mainClass>
+                            <mainClass>touristApp.TouristApp</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

@@ -3,34 +3,4 @@
     <kbase name="rules" packages="rules">
         <ksession name="ksession-rules"/>
     </kbase>
-    <kbase name="agenda-group" packages="rules2">
-        <ksession name="agenda-rules"/>
-    </kbase>
-    
-    <kbase name="declared" packages="declaredTypes">
-        <ksession name="declared-types"/>
-    </kbase>
-    
-    <kbase name="propertyreactive" packages="propertyReactive">
-        <ksession name="propertyReactiveKsession"/>
-    </kbase>
-    
-    <kbase name="collectKBase" packages="collectRules">
-        <ksession name="collectKsession"/>
-    </kbase>
-    
-    <kbase name="accumulateKBase" packages="accumRules">
-        <ksession name="accumKsession"/>
-    </kbase>
-    
-    <kbase name="condKBase" packages="conditionalElements">
-        <ksession name="condElemsKsession"/>
-    </kbase>
-    
-    <kbase name="debuggKBase" packages="matchCanceled">
-        <ksession name="matchCancelledKsession"/>
-    </kbase>
-    
-    
-    
 </kmodule>

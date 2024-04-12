@@ -30,6 +30,16 @@ public class ArrangementService {
         return arrangementRepository.save(arrangement);
     }
 
+    public Arrangement arrangementDetails(Integer arrangementId) {
+        Arrangement arrangement = arrangementRepository.findArrangementWithExcursions(arrangementId);
+        Arrangement arrangementWithRatings = arrangementRepository.findArrangementWithRatings(arrangementId);
+
+        arrangement.setRatings(arrangementWithRatings.getRatings());
+
+        return arrangement;
+
+    }
+
     public Arrangement update(Arrangement arrangement) {
         return arrangementRepository.save(arrangement);
     }

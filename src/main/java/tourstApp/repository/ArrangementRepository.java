@@ -18,6 +18,12 @@ public interface ArrangementRepository extends JpaRepository<Arrangement, Intege
     @Query("SELECT r FROM Rating r WHERE r.arrangement.id = :arrangementId")
     List<Rating> findRatingsByArrangementId(@Param("arrangementId") Integer arrangementId);
 
+    @Query("SELECT a FROM Arrangement a LEFT JOIN FETCH a.excursions WHERE a.id = :arrangementId")
+    Arrangement findArrangementWithExcursions(@Param("arrangementId") Integer arrangementId);
+    
+    @Query("SELECT a FROM Arrangement a LEFT JOIN FETCH a.ratings WHERE a.id = :arrangementId")
+    Arrangement findArrangementWithRatings(@Param("arrangementId") Integer arrangementId);
+    
     @Query("SELECT a FROM Arrangement a LEFT JOIN FETCH a.ratings WHERE a.id = :id")
     Arrangement findByIdWithRatings(@Param("id") Integer id);
 }
