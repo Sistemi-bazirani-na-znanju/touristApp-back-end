@@ -5,8 +5,6 @@ import org.springframework.stereotype.Service;
 import tourstApp.model.Role;
 import tourstApp.repository.RoleRepository;
 
-import java.util.List;
-
 @Service
 public class RoleService {
     @Autowired

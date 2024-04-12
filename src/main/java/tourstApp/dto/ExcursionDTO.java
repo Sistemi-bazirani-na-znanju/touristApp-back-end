@@ -31,8 +31,6 @@ public class ExcursionDTO {
         this.id = excursion.getId();
         this.name = excursion.getName();
         this.price = excursion.getPrice();
-        this.numberOfPeopleRegistered = excursion.getNumberOfPeopleRegistered();
         this.type = excursion.getType();
-        this.totalPrice = excursion.getTotalPrice();
     }
 }

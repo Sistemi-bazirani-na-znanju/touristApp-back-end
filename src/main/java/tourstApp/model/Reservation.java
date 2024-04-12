@@ -45,4 +45,8 @@ public class Reservation extends GenericEntity implements Serializable {
         inverseJoinColumns = @JoinColumn(name = "excursion_id")
     )
     private List<Excursion> chosenExcursions;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }

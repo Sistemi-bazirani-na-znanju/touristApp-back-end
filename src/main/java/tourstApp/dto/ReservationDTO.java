@@ -2,13 +2,10 @@ package tourstApp.dto;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import tourstApp.model.Arrangement;
 import tourstApp.model.Excursion;
 import tourstApp.model.Reservation;
 
@@ -19,6 +16,8 @@ import tourstApp.model.Reservation;
 public class ReservationDTO {
 
     private Integer id;
+
+    private long userId;
 
     private int numberOfPeople;
 
@@ -32,7 +31,7 @@ public class ReservationDTO {
 
     public ReservationDTO(Reservation reservation) {
         this.id = reservation.getId();
-
+        this.userId = reservation.getUser().getId();
         this.numberOfPeople = reservation.getNumberOfPeople();
         this.totalPrice = reservation.getTotalPrice();
         

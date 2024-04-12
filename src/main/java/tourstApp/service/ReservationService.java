@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tourstApp.model.*;
 import tourstApp.repository.ReservationRepository;
+import tourstApp.util.Double;
 
 @Service
 public class ReservationService {
@@ -48,6 +49,8 @@ public class ReservationService {
         KieSession kieSession = kieContainer.newKieSession("ksession-rules");
         kieSession.addEventListener(new DebugAgendaEventListener());
         try {
+            kieSession.setGlobal("maxDiscount", new Double(0.0));
+            kieSession.setGlobal("startPrice", new Double(reservation.getTotalPrice()));
             kieSession.insert(reservation);
             kieSession.fireAllRules();
         } finally {

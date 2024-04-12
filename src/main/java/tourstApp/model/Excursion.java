@@ -32,13 +32,5 @@ public class Excursion extends GenericEntity{
 
     @Column
     @NotNull
-    private int numberOfPeopleRegistered;
-
-    @Column
-    @NotNull
     private ExcursionType type; 
-
-    @Column
-    @NotNull
-    private double totalPrice;
 }
