@@ -22,12 +22,11 @@ then
     $reservation.setTotalPrice(startPrice.getNumber());
     double totalExcursionPrice = 0.0;
     for (Excursion excursion : $reservation.getChosenExcursions()) {
-        totalExcursionPrice += excursion.getPrice();
+        totalExcursionPrice += excursion.getPrice() * 0.9;
     }
     
-    double discountedExcursionPrice = totalExcursionPrice * 0.9;
     
-    double totalPrice = $reservation.getArrangement().getPrice() * $reservation.getNumberOfPeople() + discountedExcursionPrice * $reservation.getNumberOfPeople();
+    double totalPrice = $reservation.getArrangement().getPrice() * $reservation.getNumberOfPeople() + totalExcursionPrice * $reservation.getNumberOfPeople();
     double discount = startPrice.getNumber() - totalPrice;
     if (discount > maxDiscount.getNumber()) {
         maxDiscount.setNumber(discount);
