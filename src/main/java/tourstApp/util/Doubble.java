@@ -1,10 +1,10 @@
 package tourstApp.util;
 
-public class Double {
+public class Doubble {
 
     private double number;
 
-    public Double(double number) {
+    public Doubble(double number) {
         this.number = number;
     }
 

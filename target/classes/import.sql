@@ -17,8 +17,10 @@ INSERT INTO excursion (arrangement_id, name, price, type) VALUES (2, 'Excursion 
 INSERT INTO excursion (arrangement_id, name, price, type) VALUES (2, 'Excursion 5', 150.0, 2);
 INSERT INTO excursion (arrangement_id, name, price, type) VALUES (2, 'Excursion 6', 180.0, 5);
 INSERT INTO excursion (arrangement_id, name, price, type) VALUES (3, 'Excursion 7', 100.0, 3);
-INSERT INTO excursion (arrangement_id, name, price, type) VALUES (3, 'Excursion 8', 400.0, 4);
-INSERT INTO excursion (arrangement_id, name, price, type) VALUES (3, 'Excursion 9', 250.0, 0);
+INSERT INTO excursion (arrangement_id, name, price, type) VALUES (3, 'Excursion 8', 4000.0, 4);
+INSERT INTO excursion (arrangement_id, name, price, type) VALUES (3, 'Excursion 9', 2500.0, 0);
+INSERT INTO excursion (arrangement_id, name, price, type) VALUES (3, 'Excursion 10', 600.0, 3);
+INSERT INTO excursion (arrangement_id, name, price, type) VALUES (3, 'Excursion 11', 750.0, 4);
 
 INSERT INTO rating (arrangement_id, rating_value) VALUES (1, 4.8);
 INSERT INTO rating (arrangement_id, rating_value) VALUES (1, 4.6);
