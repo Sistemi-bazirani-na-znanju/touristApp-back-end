@@ -1,0 +1,93 @@
+package unauthRules
+
+import tourstApp.model.Reservation;
+import tourstApp.model.Excursion;
+import tourstApp.model.ExcursionType;
+import tourstApp.model.Rating;
+import tourstApp.model.Arrangement;
+import tourstApp.model.RatingType;
+import tourstApp.util.Doubble;
+import java.util.List;
+import java.util.ArrayList;
+import java.time.LocalDateTime;
+
+
+rule "Check if Arrangement is New"
+    when
+         $arrangement: Arrangement($date : date)
+        $sixMonthsAgo: LocalDateTime() from (java.time.LocalDateTime.now().minusMonths(6))
+        eval($date.isAfter($sixMonthsAgo))
+    then
+    modify($arrangement){setNew(true)};
+    System.out.println("MODIFIED");
+end
+
+rule "Check if Arrangement is Popular"
+when
+    $arrangement: Arrangement($ratings: ratings)
+    eval($ratings.size() >= 1)
+then
+    $arrangement.setPopular(true);
+end
+
+rule "Check if Arrangement is Popular and New"
+when
+    $arrangement: Arrangement(New == true, $ratings: ratings)
+    eval($ratings.size() > 0)
+then
+    $arrangement.setPopular(true);
+end
+
+rule "Check if Arrangement is Neutral or Unrated"
+no-loop true
+when
+    $arrangement: Arrangement(averageRating > 2.5, averageRating < 4.0 || numberOfRatings == null)
+then
+    $arrangement.setRatingType(RatingType.AVERAGE_RATING);
+end
+
+rule "Check if Arrangement is Well Rated"
+no-loop true
+when
+    $arrangement: Arrangement(averageRating >= 4.0)
+then
+    $arrangement.setRatingType(RatingType.GOOD_RATING);
+end
+
+rule "Check if Arrangement is Poorly Rated"
+no-loop true
+when
+    $arrangement: Arrangement(averageRating <= 2.5)
+then
+    $arrangement.setRatingType(RatingType.BAD_RATING);
+end
+
+rule "Recommend New Arrangement"
+when
+    $arrangement: Arrangement(New == true)
+then
+    $arrangement.setRecommended(true);
+    System.out.println("New arrangement is recommended");
+end
+
+rule "Recommend Arrangement if Popular and Rated Well or Neutral"
+when
+    $arrangemenT: Arrangement(Popular == true)
+then
+    $arrangemenT.setRecommended(true);
+    System.out.println("Arrangement is recommended because it is popular and has been rated well or neutrally");
+end
+
+rule "Remove Poorly Rated Arrangements if Recommended Count Exceeds 10"
+when
+    $arrangements: List(size > 10) from collect(Arrangement(Recommended == true))
+    $arrangement: Arrangement() from $arrangements
+    $poorlyRatedArrangements: List() from accumulate(
+        $arr: Arrangement(Recommended == true, averageRating < 3),
+        collectList($arr)
+    )
+then
+    $arrangements.removeAll($poorlyRatedArrangements);
+end
+
+

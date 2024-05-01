@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.lang.Nullable;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -43,6 +44,24 @@ public class Arrangement extends GenericEntity{
     @NotNull
     private LocalDateTime date;
 
+    @Column
+    @Nullable
+    private boolean isNew;
+
+    @Column
+    @Nullable
+    private boolean isPopular;
+
+    @Column
+    @Nullable
+    private boolean isRecommended;
+
+    @Nullable
+    private Integer numberOfRatings;
+
+    @Nullable
+    private RatingType ratingType;
+
     
     @OneToMany(mappedBy = "arrangement", fetch = FetchType.LAZY, cascade = javax.persistence.CascadeType.ALL)
     private List<Excursion> excursions;
@@ -65,3 +84,5 @@ public class Arrangement extends GenericEntity{
     }
 
 }
+
+

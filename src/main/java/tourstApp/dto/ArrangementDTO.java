@@ -12,6 +12,7 @@ import tourstApp.model.Arrangement;
 import tourstApp.model.ArrangementType;
 import tourstApp.model.Excursion;
 import tourstApp.model.Rating;
+import tourstApp.model.RatingType;
 
 @Getter
 @Setter
@@ -35,6 +36,14 @@ public class ArrangementDTO {
 
     private List<RatingDTO> ratings;
 
+    private boolean isNew;
+
+    private boolean isPopular;
+
+    private boolean isRecommended;
+
+    private RatingType ratingType;
+
 
     public ArrangementDTO(Arrangement arrangement) {
         this.id = arrangement.getId();
@@ -43,6 +52,10 @@ public class ArrangementDTO {
         this.price = arrangement.getPrice();
         this.averageRating = arrangement.getAverageRating();
         this.date = arrangement.getDate();
+        this.isNew = arrangement.isNew();
+        this.isPopular = arrangement.isPopular();
+        this.isRecommended = arrangement.isRecommended();
+        this.ratingType = arrangement.getRatingType();
         
         if (arrangement.getExcursions() != null) {
             this.excursions = new ArrayList<>();
