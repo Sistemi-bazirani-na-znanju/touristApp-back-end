@@ -1,8 +1,10 @@
 package tourstApp.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.kie.api.KieServices;
+import org.kie.api.event.rule.DebugAgendaEventListener;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,7 @@ public class ArrangementService {
         KieServices ks = KieServices.Factory.get();
 		KieContainer kieContainer = ks.getKieClasspathContainer();
         KieSession kieSession = kieContainer.newKieSession("unauthSession");
+        kieSession.addEventListener(new DebugAgendaEventListener());
  
         List<Arrangement> arrangementsList = arrangementRepository.findAll();
         for (Arrangement arr : arrangementsList) {
@@ -38,6 +41,8 @@ public class ArrangementService {
         }
 
         kieSession.fireAllRules();
+        // List<Arrangement> arrangementsListt = findPoorlyRated(arrangementsList);
+        // System.out.println("nadjena lista je: " + arrangementsListt.size());
         return arrangementsList;
     }
 
@@ -69,5 +74,11 @@ public class ArrangementService {
 
     public Arrangement findByIdWithRatings(Integer id) {
         return arrangementRepository.findByIdWithRatings(id);
+    }
+
+    public List<Arrangement> findPoorlyRated(List<Arrangement> recommendedArrangements) {
+        return recommendedArrangements.stream()
+                                      .filter(arrangement -> arrangement.getAverageRating() > 2.5)
+                                      .collect(Collectors.toList());
     }
 }

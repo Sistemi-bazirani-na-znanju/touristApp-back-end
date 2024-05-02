@@ -6,11 +6,12 @@ import tourstApp.model.ExcursionType;
 import tourstApp.model.Rating;
 import tourstApp.model.Arrangement;
 import tourstApp.model.RatingType;
+import tourstApp.service.ArrangementService;
 import tourstApp.util.Doubble;
 import java.util.List;
 import java.util.ArrayList;
 import java.time.LocalDateTime;
-
+import java.util.Random;
 
 rule "Check if Arrangement is New"
     when
@@ -23,19 +24,19 @@ rule "Check if Arrangement is New"
 end
 
 rule "Check if Arrangement is Popular"
-when
-    $arrangement: Arrangement($ratings: ratings)
+    when
+    $arrangement: Arrangement($ratings: ratings, Popular == false)
     eval($ratings.size() >= 1)
-then
-    $arrangement.setPopular(true);
+    then
+    modify($arrangement){setPopular(true)};
 end
 
 rule "Check if Arrangement is Popular and New"
 when
-    $arrangement: Arrangement(New == true, $ratings: ratings)
+    $arrangement: Arrangement(New == true, $ratings: ratings, Popular == false)
     eval($ratings.size() > 0)
 then
-    $arrangement.setPopular(true);
+    modify($arrangement){setPopular(true)};
 end
 
 rule "Check if Arrangement is Neutral or Unrated"
@@ -64,30 +65,77 @@ end
 
 rule "Recommend New Arrangement"
 when
-    $arrangement: Arrangement(New == true)
+    $arrangement: Arrangement(New == true, Recommended == false)
 then
-    $arrangement.setRecommended(true);
+    modify($arrangement){setRecommended(true)};
     System.out.println("New arrangement is recommended");
 end
 
 rule "Recommend Arrangement if Popular and Rated Well or Neutral"
+salience -100
 when
-    $arrangemenT: Arrangement(Popular == true)
+    $arrangement: Arrangement(Popular == true, averageRating >= 2.5, Recommended == false)
 then
-    $arrangemenT.setRecommended(true);
+    modify($arrangement){setRecommended(true)};
     System.out.println("Arrangement is recommended because it is popular and has been rated well or neutrally");
 end
 
-rule "Remove Poorly Rated Arrangements if Recommended Count Exceeds 10"
-when
-    $arrangements: List(size > 10) from collect(Arrangement(Recommended == true))
-    $arrangement: Arrangement() from $arrangements
-    $poorlyRatedArrangements: List() from accumulate(
-        $arr: Arrangement(Recommended == true, averageRating < 3),
-        collectList($arr)
-    )
-then
-    $arrangements.removeAll($poorlyRatedArrangements);
-end
 
 
+
+// rule "Remove Poorly Rated Arrangements if Recommended Count Exceeds 10"
+// salience -150
+// when
+//     $arrangements: List(size > 10) from collect(Arrangement(Recommended == true))
+//     $arrangement: Arrangement() from $arrangements
+//     $poorlyRatedArrangements: List() from accumulate(
+//         Arrangement(Recommended == true, averageRating < 2.5, $arr: this),
+//         collectList((Arrangement) $arr)
+//     )
+// then
+//     for (Arrangement arr : $poorlyRatedArrangements) {
+//             modify(arr){setRecommended(false)};
+//     }
+// end
+
+
+
+// rule "Remove Poorly Rated Arrangements if Recommended Count Exceeds 10"
+// when
+//     // Kada je broj aranžmana koji treba preporučiti veći od 10
+//     $arrangements : List(size > 10) from collect(Arrangement(Recommended == true))
+
+//     // I kada postoji barem jedan aranžman sa prosječnom ocjenom ispod 2.5
+//     $arrangement : Arrangement(averageRating < 2.5, Recommended == true) from $arrangements
+// then
+//      modify($arrangement){setRecommended(false)};
+// end
+
+// rule "Remove Poorly Rated Arrangements if Recommended Count Exceeds 10 and Randomly Select 10 Titles"
+// salience -200
+// when
+//     $arrangements: List(size > 10) from collect(Arrangement(Recommended == true))
+//     $arrangement: Arrangement() from $arrangements
+//     $poorlyRatedArrangements: List() from accumulate(
+//         $arr: Arrangement(Recommended == true, averageRating < 2.5),
+//         collectList($arr)
+//     )
+//     Number(intValue > 10) from accumulate(
+//         Arrangement(Recommended == true) from $arrangement,
+//         count(1)
+//     )
+// then
+//     $arrangements.removeAll($poorlyRatedArrangements);
+
+//     if ($arrangements.size() > 10) {
+//         Random random = new Random();
+//         List<Arrangement> selectedArrangements = new ArrayList<>();
+//         while (selectedArrangements.size() < 10) {
+//             Arrangement randomArrangement = $arrangements.get(random.nextInt($arrangements.size()));
+//             if (!selectedArrangements.contains(randomArrangement)) {
+//                 selectedArrangements.add(randomArrangement);
+//             }
+//         }
+//         $arrangements.retainAll(selectedArrangements);
+//     }
+// end
