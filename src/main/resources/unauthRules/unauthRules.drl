@@ -80,6 +80,34 @@ then
     System.out.println("Arrangement is recommended because it is popular and has been rated well or neutrally");
 end
 
+// rule "Remove Poorly Rated Arrangements if Recommended Count Exceeds 10"
+// agenda-group "over10"
+// when
+//   $arrangements : List(size > 5) from collect(Arrangement(Recommended == true))
+//    $arrangement : Arrangement(averageRating < 2.5, Recommended == true) from $arrangements
+// then
+//  modify($arrangement){
+//  setRecommended(false); }
+//  System.out.println("NEPRI");
+// end
+
+
+// rule "Remove Poorly Rated Arrangements if Recommended Count Exceeds 10"
+// when
+//     $arrangements : List(size > 10) from collect(Arrangement(Recommended == true))
+
+//   //  $arrangement : Arrangement(averageRating < 2.5, Recommended == true) from $arrangements
+// then
+
+//     for (Arrangement arr : $arrangements) {
+//              if (arr.Recommended == true)
+//              modify(arr){setRecommended(false)};
+//      }
+
+//     // modify($arrangement){
+//     //     setRecommended(false);
+//     // }
+// end
 
 
 

@@ -41,6 +41,15 @@ public class ArrangementService {
         }
 
         kieSession.fireAllRules();
+        kieSession.dispose();
+        kieSession = kieContainer.newKieSession("unauthSession2");
+        for (Arrangement arr : arrangementsList) {
+            System.out.println("POSLAO U SESIJU");
+            kieSession.insert(arr);
+       //     kieSession.fireAllRules();
+        }
+        
+       kieSession.fireAllRules();
         // List<Arrangement> arrangementsListt = findPoorlyRated(arrangementsList);
         // System.out.println("nadjena lista je: " + arrangementsListt.size());
         return arrangementsList;
