@@ -3,4 +3,12 @@
     <kbase name="rules" packages="rules">
         <ksession name="ksession-rules"/>
     </kbase>
+
+      <kbase name="collectKBase" packages="unauthRules">
+        <ksession name="unauthSession"/>
+    </kbase>
+
+    <kbase name="collectKBase2" packages="unauthRules2">
+        <ksession name="unauthSession2"/>
+    </kbase>
 </kmodule>
