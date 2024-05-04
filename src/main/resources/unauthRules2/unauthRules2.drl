@@ -1,0 +1,36 @@
+package unauthRules2;
+
+import tourstApp.model.Reservation;
+import tourstApp.model.Excursion;
+import tourstApp.model.ExcursionType;
+import tourstApp.model.Rating;
+import tourstApp.model.Arrangement;
+import tourstApp.model.RatingType;
+import tourstApp.service.ArrangementService;
+import tourstApp.util.Doubble;
+import java.util.List;
+import java.util.ArrayList;
+import java.time.LocalDateTime;
+import java.util.Random;
+
+
+
+rule "Remove Poorly Rated Arrangements if Recommended Count Exceeds 10"
+salience 100
+when
+  $arrangements : List(size > 10) from collect(Arrangement(Recommended == true))
+   $arrangement : Arrangement(averageRating < 2.5, Recommended == true) from $arrangements
+then
+ modify($arrangement){
+ setRecommended(false); }
+end
+
+rule "Select 10 Arrangements"
+salience -100
+when
+  $arrangements : List(size > 10) from collect(Arrangement(Recommended == true))
+   $arrangement : Arrangement(Recommended == true) from $arrangements
+then
+ modify($arrangement){
+ setRecommended(false); }
+end
