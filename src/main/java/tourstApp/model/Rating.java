@@ -30,4 +30,9 @@ public class Rating extends GenericEntity{
     @NotNull
     private double ratingValue;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+
 }

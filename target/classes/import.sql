@@ -57,6 +57,6 @@ INSERT INTO excursion (arrangement_id, name, price, type) VALUES (3, 'Excursion 
 INSERT INTO excursion (arrangement_id, name, price, type) VALUES (3, 'Excursion 10', 600.0, 3);
 INSERT INTO excursion (arrangement_id, name, price, type) VALUES (3, 'Excursion 11', 750.0, 4);
 
-INSERT INTO rating (arrangement_id, rating_value) VALUES (1, 4.8);
-INSERT INTO rating (arrangement_id, rating_value) VALUES (1, 4.6);
-INSERT INTO rating (arrangement_id, rating_value) VALUES (2, 4.2);
+INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (1, 4.8, 1);
+INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (1, 4.6, 1);
+INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (2, 4.2, 1);

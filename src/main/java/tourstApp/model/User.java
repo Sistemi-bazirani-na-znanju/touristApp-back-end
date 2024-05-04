@@ -52,6 +52,9 @@ import org.springframework.security.core.GrantedAuthority;
         )
         private List<ExcursionTypeClass> excursionTypes;
 
+        @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = javax.persistence.CascadeType.ALL)
+        private List<Rating> ratings;
+
         public User() {
         }
 
