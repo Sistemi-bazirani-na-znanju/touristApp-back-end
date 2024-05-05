@@ -62,6 +62,9 @@ public class Arrangement extends GenericEntity{
     @Nullable
     private RatingType ratingType;
 
+    @Nullable
+    private Integer recommendationPoints;
+
     
     @OneToMany(mappedBy = "arrangement", fetch = FetchType.LAZY, cascade = javax.persistence.CascadeType.ALL)
     private List<Excursion> excursions;

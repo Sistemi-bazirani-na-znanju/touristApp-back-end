@@ -1,4 +1,4 @@
-package unauthRules
+package authRules
 
 import tourstApp.model.Reservation;
 import tourstApp.model.Excursion;
@@ -41,65 +41,81 @@ end
 
 rule "Check User Recommendation Based on Pearson Similarity"
 when
-    // Match a user who is not new
+    // Get a list of other users and an arrangement
+    $otherUsers: List<User>()
+    $arrangement: Arrangement()
     $user: User(isNew == false, $userRatings: ratings)
-    // Match other users to compare with
-    $otherUser: User(this != $user, $otherUserRatings: ratings)
 then
-    // Initialize variables for Pearson correlation calculation
-    double pearsonCorrelation = 0.0;
-    double sumRaRu = 0.0;
-    double sumRaSquared = 0.0;
-    double sumRuSquared = 0.0;
+    // Iterate through the other users
+    for (User otherUser : $otherUsers) {
+        // Retrieve other user's ratings
+        List<Rating> otherUserRatings = otherUser.getRatings();
+        
+        // Initialize variables for Pearson correlation calculation
+        double pearsonCorrelation = 0.0;
+        double sumRaRu = 0.0;
+        double sumRaSquared = 0.0;
+        double sumRuSquared = 0.0;
 
-    // Filter ratings to include only the ratings of arrangements they both rated
-    List<Rating> filteredUserRatings = new ArrayList<>();
-    List<Rating> filteredOtherUserRatings = new ArrayList<>();
-    
-    // Iterate through the ratings to filter for common arrangements
-    for (Rating userRating : $userRatings) {
-        for (Rating otherUserRating : $otherUserRatings) {
-            if (userRating.getArrangement().getId().equals(otherUserRating.getArrangement().getId())) {
-                filteredUserRatings.add(userRating);
-                filteredOtherUserRatings.add(otherUserRating);
+        // Initialize variables for filtered ratings
+        Rating userRatingForArrangement = null;
+        Rating otherUserRatingForArrangement = null;
+
+        // Iterate through the ratings to find common ratings for the arrangement
+        for (Rating userRating : $userRatings) {
+            if (userRating.getArrangement().equals($arrangement)) {
+                userRatingForArrangement = userRating;
+                break;
             }
         }
-    }
 
-    // Check if there is any common arrangement rated by both users
-    if (!filteredUserRatings.isEmpty()) {
-        // Calculate mean ratings for user and other user based on filtered ratings
-        double meanUserRating = filteredUserRatings.stream().mapToDouble(Rating::getRatingValue).average().orElse(0.0);
-        double meanOtherUserRating = filteredOtherUserRatings.stream().mapToDouble(Rating::getRatingValue).average().orElse(0.0);
+        if (userRatingForArrangement != null) {
+            for (Rating otherUserRating : otherUserRatings) {
+                if (otherUserRating.getArrangement().equals($arrangement)) {
+                    otherUserRatingForArrangement = otherUserRating;
+                    break;
+                }
+            }
 
-        // Iterate through filtered ratings and calculate components of Pearson correlation
-        for (int i = 0; i < filteredUserRatings.size(); i++) {
-            Rating userRating = filteredUserRatings.get(i);
-            Rating otherUserRating = filteredOtherUserRatings.get(i);
-            double rai = userRating.getRatingValue();
-            double rui = otherUserRating.getRatingValue();
+            // If both users have rated the arrangement
+            if (otherUserRatingForArrangement != null) {
+                // Calculate mean ratings for the arrangement
+                double meanUserRating = $userRatings.stream()
+                    .filter(r -> r.getArrangement().equals($arrangement))
+                    .mapToDouble(Rating::getRatingValue)
+                    .average().orElse(0.0);
+                
+                double meanOtherUserRating = otherUserRatings.stream()
+                    .filter(r -> r.getArrangement().equals($arrangement))
+                    .mapToDouble(Rating::getRatingValue)
+                    .average().orElse(0.0);
 
-            sumRaRu += (rai - meanUserRating) * (rui - meanOtherUserRating);
-            sumRaSquared += Math.pow((rai - meanUserRating), 2);
-            sumRuSquared += Math.pow((rui - meanOtherUserRating), 2);
-        }
+                // Calculate components of Pearson correlation
+                double rai = userRatingForArrangement.getRatingValue();
+                double rui = otherUserRatingForArrangement.getRatingValue();
 
-        // Calculate the Pearson correlation
-        pearsonCorrelation = sumRaRu / (Math.sqrt(sumRaSquared) * Math.sqrt(sumRuSquared));
+                sumRaRu += (rai - meanUserRating) * (rui - meanOtherUserRating);
+                sumRaSquared += Math.pow((rai - meanUserRating), 2);
+                sumRuSquared += Math.pow((rui - meanOtherUserRating), 2);
 
-        // Check if correlation is greater than 0.5 and the user's rating for the arrangement is greater than 3
-        for (int i = 0; i < filteredUserRatings.size(); i++) {
-            Rating userRating = filteredUserRatings.get(i);
-            if (pearsonCorrelation > 0.5 && userRating.getRatingValue() > 3) {
-                Arrangement arrangement = userRating.getArrangement();
-                // Set the arrangement as recommended
-                modify(arrangement) {
-                    setIsRecommended(true);
-                };
+                // Calculate the Pearson correlation
+                if (sumRaSquared > 0 && sumRuSquared > 0) {
+                    pearsonCorrelation = sumRaRu / (Math.sqrt(sumRaSquared) * Math.sqrt(sumRuSquared));
+                }
+
+                // Check if correlation is greater than 0.5 and user's rating for arrangement is greater than 3
+                if (pearsonCorrelation > 0.5 && rai > 3) {
+                    // Set the arrangement as recommended
+                    modify($arrangement) {
+                        setRecommendedPoints(getRecommendedPoints() + 1)
+                    };
+                    break;
+                }
             }
         }
     }
 end
+
 
 rule "Mark Arrangement as Recommended Based on Similar Arrangements"
 when
@@ -127,7 +143,7 @@ then
         for (Rating raRating : ratedArrangement.getRatings()) {
             for (Rating arrRating : $arrangement.getRatings()) {
                 // Check if users are the same and ratings are similar (same value or one value difference)
-                if (raRating.getUser().equals(arrRating.getUser()) && Math.abs(raRating.getRatingValue() - arrRating.getRatingValue()) <= 1) {
+                if (raRating.getUser().getId().equals(arrRating.getUser().getId()) && Math.abs(raRating.getRatingValue() - arrRating.getRatingValue()) <= 1) {
                     similarRatings++;
                 }
                 totalRatings++;
@@ -145,7 +161,7 @@ then
     if (totalComparisons > 0 && (similarComparisons / (double) totalComparisons) * 100 >= 70) {
         // If similarity condition is met, mark the arrangement as recommended
         modify($arrangement) {
-            setIsRecommended(true)
+            setRecommendedPoints(getRecommendedPoints() + 1)
         };
     }
 end
@@ -159,14 +175,11 @@ when
     $arrangement: Arrangement(isRecommended == false, $destination: destination, $excursions: excursions)
     $yearAgo: LocalDateTime() from (java.time.LocalDateTime.now().minusMonths(12))
 then
-    // Calculate one year ago from today
-
-
     // Check if user had reservations for arrangements with the same destination at least 2 times in the last year
     int destinationReservationCount = 0;
     for (Reservation reservation : $user.getReservations()) {
         Arrangement reservedArrangement = reservation.getArrangement();
-        if (reservedArrangement.getDestination().equals($destination) &&
+        if (reservedArrangement.getDestination().getId().equals($destination.getId()) &&
             reservation.getDate().isAfter(yearAgo)) {
             destinationReservationCount++;
         }
@@ -175,7 +188,7 @@ then
     // If the user had at least 2 reservations with the same destination in the last year, mark the arrangement as recommended
     if (destinationReservationCount >= 2) {
         modify($arrangement) {
-            setIsRecommended(true)
+            setRecommendedPoints(getRecommendedPoints() + 1)
         };
     } else {
     // Calculate the percentage of similar excursion types the user has attended in the last year
@@ -208,7 +221,7 @@ then
         // If the percentage is at least 40%, mark the arrangement as recommended
         if (percentageSimilar >= 0.4) {
             modify($arrangement) {
-                setIsRecommended(true)
+                setRecommendedPoints(getRecommendedPoints() + 1)
             };
         }
     }
