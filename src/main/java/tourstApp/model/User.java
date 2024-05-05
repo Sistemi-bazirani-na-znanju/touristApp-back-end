@@ -7,7 +7,9 @@ import tourstApp.converter.ListToStringJsonConverter;
 import org.springframework.security.core.GrantedAuthority;
     import org.springframework.security.core.userdetails.UserDetails;
 
-    import javax.persistence.*;
+import com.beust.jcommander.internal.Nullable;
+
+import javax.persistence.*;
     import java.util.ArrayList;
     import java.util.Collection;
     import java.util.List;
@@ -32,6 +34,10 @@ import org.springframework.security.core.GrantedAuthority;
 
         @Column(name = "lastName", nullable = false)
         private String lastName;
+
+        @Column(name = "new", nullable = false)
+        @Nullable
+        private boolean isNew;
 
         @OneToOne(fetch = FetchType.EAGER)
         private Role role;
