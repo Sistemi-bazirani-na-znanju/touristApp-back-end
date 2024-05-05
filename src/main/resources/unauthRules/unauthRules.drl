@@ -26,7 +26,7 @@ end
 rule "Check if Arrangement is Popular"
     when
     $arrangement: Arrangement($ratings: ratings, Popular == false)
-    eval($ratings.size() >= 1)
+    eval($ratings.size() >= 1) //treba prepraviti na 20, za sada ovako radi lakseg testiranja
     then
     modify($arrangement){setPopular(true)};
 end
@@ -34,7 +34,7 @@ end
 rule "Check if Arrangement is Popular and New"
 when
     $arrangement: Arrangement(New == true, $ratings: ratings, Popular == false)
-    eval($ratings.size() > 0)
+    eval($ratings.size() > 0) //treba prepraviti na 10, za sada ovako radi lakseg testiranja
 then
     modify($arrangement){setPopular(true)};
 end
@@ -79,91 +79,3 @@ then
     modify($arrangement){setRecommended(true)};
     System.out.println("Arrangement is recommended because it is popular and has been rated well or neutrally");
 end
-
-// rule "Remove Poorly Rated Arrangements if Recommended Count Exceeds 10"
-// agenda-group "over10"
-// when
-//   $arrangements : List(size > 5) from collect(Arrangement(Recommended == true))
-//    $arrangement : Arrangement(averageRating < 2.5, Recommended == true) from $arrangements
-// then
-//  modify($arrangement){
-//  setRecommended(false); }
-//  System.out.println("NEPRI");
-// end
-
-
-// rule "Remove Poorly Rated Arrangements if Recommended Count Exceeds 10"
-// when
-//     $arrangements : List(size > 10) from collect(Arrangement(Recommended == true))
-
-//   //  $arrangement : Arrangement(averageRating < 2.5, Recommended == true) from $arrangements
-// then
-
-//     for (Arrangement arr : $arrangements) {
-//              if (arr.Recommended == true)
-//              modify(arr){setRecommended(false)};
-//      }
-
-//     // modify($arrangement){
-//     //     setRecommended(false);
-//     // }
-// end
-
-
-
-// rule "Remove Poorly Rated Arrangements if Recommended Count Exceeds 10"
-// salience -150
-// when
-//     $arrangements: List(size > 10) from collect(Arrangement(Recommended == true))
-//     $arrangement: Arrangement() from $arrangements
-//     $poorlyRatedArrangements: List() from accumulate(
-//         Arrangement(Recommended == true, averageRating < 2.5, $arr: this),
-//         collectList((Arrangement) $arr)
-//     )
-// then
-//     for (Arrangement arr : $poorlyRatedArrangements) {
-//             modify(arr){setRecommended(false)};
-//     }
-// end
-
-
-
-// rule "Remove Poorly Rated Arrangements if Recommended Count Exceeds 10"
-// when
-//     // Kada je broj aranžmana koji treba preporučiti veći od 10
-//     $arrangements : List(size > 10) from collect(Arrangement(Recommended == true))
-
-//     // I kada postoji barem jedan aranžman sa prosječnom ocjenom ispod 2.5
-//     $arrangement : Arrangement(averageRating < 2.5, Recommended == true) from $arrangements
-// then
-//      modify($arrangement){setRecommended(false)};
-// end
-
-// rule "Remove Poorly Rated Arrangements if Recommended Count Exceeds 10 and Randomly Select 10 Titles"
-// salience -200
-// when
-//     $arrangements: List(size > 10) from collect(Arrangement(Recommended == true))
-//     $arrangement: Arrangement() from $arrangements
-//     $poorlyRatedArrangements: List() from accumulate(
-//         $arr: Arrangement(Recommended == true, averageRating < 2.5),
-//         collectList($arr)
-//     )
-//     Number(intValue > 10) from accumulate(
-//         Arrangement(Recommended == true) from $arrangement,
-//         count(1)
-//     )
-// then
-//     $arrangements.removeAll($poorlyRatedArrangements);
-
-//     if ($arrangements.size() > 10) {
-//         Random random = new Random();
-//         List<Arrangement> selectedArrangements = new ArrayList<>();
-//         while (selectedArrangements.size() < 10) {
-//             Arrangement randomArrangement = $arrangements.get(random.nextInt($arrangements.size()));
-//             if (!selectedArrangements.contains(randomArrangement)) {
-//                 selectedArrangements.add(randomArrangement);
-//             }
-//         }
-//         $arrangements.retainAll(selectedArrangements);
-//     }
-// end
