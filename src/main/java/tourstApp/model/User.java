@@ -119,4 +119,7 @@ import javax.persistence.*;
         public boolean isEnabled() {
             return true;
         }
+
+        public List<ExcursionTypeClass> getExcursionTypes(){return this.excursionTypes;}
+        public List<Destination> getDestinations(){return this.destinations;}
     }

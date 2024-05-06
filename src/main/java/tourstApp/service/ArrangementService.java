@@ -10,11 +10,9 @@ import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tourstApp.model.Arrangement;
-import tourstApp.model.Excursion;
-import tourstApp.model.Rating;
-import tourstApp.model.User;
+import tourstApp.model.*;
 import tourstApp.repository.ArrangementRepository;
+import tourstApp.repository.ReservationRepository;
 import tourstApp.repository.UserRepository;
 import tourstApp.util.RatingDrl;
 import tourstApp.util.UserDrl;
@@ -29,6 +27,9 @@ public class ArrangementService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ReservationRepository reservationRepository;
 
     public Arrangement findById(Integer id){
         return arrangementRepository.findById(id).orElse(null);
@@ -102,11 +103,14 @@ public class ArrangementService {
             kieSession.fireAllRules();
 
 
+
             if(!userDrl.getIsNew()){
                 System.out.println("User is old");
 
                 kieSession.dispose();
                 kieSession = kieContainer.newKieSession("authSession2");
+
+                List<Reservation> reservations = reservationRepository.findAll();
 
                 List<Rating> ratings = userRepository.findRatingsByUserId(userId);
                 List<RatingDrl> ratingDrls = new ArrayList();
@@ -125,9 +129,16 @@ public class ArrangementService {
                     System.out.println("SENT IN SESSION RATINGDRLS");
                     kieSession.insert(rDrl);
                 }
+
+
                 for (Arrangement arr : arrangements) {
                     System.out.println("SENT IN SESSION ARRANGEMENTS");
                     kieSession.insert(arr);
+                }
+
+                for(Reservation res : reservations){
+                    System.out.println("SENT IN SESSION RESERVATIONS");
+                    kieSession.insert(res);
                 }
 
 
@@ -143,12 +154,55 @@ public class ArrangementService {
                 arrangements = findRecommended(arrangements);
                 return arrangements;
             }
+            else{
+
+
+
+                user.setDestinations(userRepository.findDestinationsByUserId(user.getId()));
+                user.setExcursionTypes(userRepository.findExcursionTypesByUserId(user.getId()));
+
+                if(user.getDestinations().isEmpty() || user.getExcursionTypes().isEmpty()){
+                    kieSession.dispose();
+                    kieSession = kieContainer.newKieSession("unauthSession");
+                    kieSession.addEventListener(new DebugAgendaEventListener());
+
+                    List<Arrangement> arrangementsList = arrangementRepository.findAll();
+                    for (Arrangement arr : arrangementsList) {
+                        System.out.println("POSLAO U SESIJU");
+                        kieSession.insert(arr);
+                    }
+
+                    kieSession.fireAllRules();
+                    kieSession.dispose();
+
+                    kieSession = kieContainer.newKieSession("unauthSession2");
+                    for (Arrangement arr : arrangementsList) {
+                        System.out.println("POSLAO U SESIJU");
+                        kieSession.insert(arr);
+                    }
+
+                    kieSession.fireAllRules();
+                    kieSession.dispose();
+                    for (Arrangement arr : arrangementsList) {
+                        arrangementRepository.save(arr);
+                    }
+                    return arrangementsList;
+                }
+                else{
+                    System.out.println("Nije prazno");
+                    return arrangementRepository.findAll();
+                }
+
+
+            }
 
 
 
 
 
-            return arrangementRepository.findAll();
+
+
+
 
         }
 

@@ -3,10 +3,7 @@ package tourstApp.model;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.lang.Nullable;
@@ -63,6 +60,9 @@ public class Arrangement extends GenericEntity{
     @Nullable
     private Integer recommendationPoints;
 
+    @OneToOne
+    private Destination destination;
+
     
     @OneToMany(mappedBy = "arrangement", fetch = FetchType.LAZY, cascade = javax.persistence.CascadeType.ALL)
     private List<Excursion> excursions;
@@ -83,6 +83,7 @@ public class Arrangement extends GenericEntity{
             ratings.forEach(excursion -> excursion.setArrangement(this));
         }
     }
+
 
 }
 

@@ -234,66 +234,80 @@ end
 
 
 
-// rule "Mark Arrangement as Recommended Based on Destination and Excursion Type"
-// when
-//     // Match a user
-//     $user: User()
-//     // Match an arrangement that is not yet recommended
-//     $arrangement: Arrangement(isRecommended == false, $destination: destination, $excursions: excursions)
-//     $yearAgo: LocalDateTime() from (java.time.LocalDateTime.now().minusMonths(12))
-// then
-//     // Check if user had reservations for arrangements with the same destination at least 2 times in the last year
-//     int destinationReservationCount = 0;
-//     for (Reservation reservation : $user.getReservations()) {
-//         Arrangement reservedArrangement = reservation.getArrangement();
-//         if (reservedArrangement.getDestination().getId().equals($destination.getId()) &&
-//             reservation.getDate().isAfter(yearAgo)) {
-//             destinationReservationCount++;
-//         }
-//     }
+ rule "Mark Arrangement as Recommended Based on Destination and Excursion Type"
+ when
+     // Match a user
+     $user: User()
+     $reservations : List() from collect(Reservation(user.getId() == $user.getId()))
+     // Match an arrangement that is not yet recommended
+     $arrangement: Arrangement(Recommended == false, $destination: destination, $excursions: excursions)
+     $yearAgo: LocalDateTime() from (java.time.LocalDateTime.now().minusMonths(12))
+ then
+     // Check if user had reservations for arrangements with the same destination at least 2 times in the last year
+     int destinationReservationCount = 0;
+     for (Object reservation : $reservations) {
+         Reservation reservationClass = (Reservation) reservation;
+         Arrangement reservedArrangement = reservationClass.getArrangement();
+         if (reservedArrangement.getDestination().getId().equals($destination.getId()) &&
+             reservedArrangement.getDate().isAfter($yearAgo)) {
+             destinationReservationCount++;
+         }
+     }
     
-//     // If the user had at least 2 reservations with the same destination in the last year, mark the arrangement as recommended
-//     if (destinationReservationCount >= 2) {
-//         modify($arrangement) {
-//             setRecommendedPoints(getRecommendedPoints() + 1)
-//         };
-//     } else {
-//     // Calculate the percentage of similar excursion types the user has attended in the last year
-//     int similarExcursionCount = 0;
-//     int totalExcursions = 0;
+     // If the user had at least 2 reservations with the same destination in the last year, mark the arrangement as recommended
+     if (destinationReservationCount >= 2)
+     {
+         modify($arrangement) {
+                                      setRecommended(true)
+                                  };
+
+                                  int incrementedPoint = $arrangement.getRecommendationPoints() + 1;
+                                  modify($arrangement){
+                                      setRecommendationPoints(incrementedPoint)
+                                  };
+     } else {
+     // Calculate the percentage of similar excursion types the user has attended in the last year
+     int similarExcursionCount = 0;
+     int totalExcursions = 0;
     
-//     // Iterate through user's reservations
-//     for (Reservation reservation : $user.getReservations()) {
-//         // Ensure the reservation date is within the last year
-//         if (reservation.getDate().isAfter(yearAgo)) {
-//             // Get the chosen excursions from the reservation
-//             List<Excursion> chosenExcursions = reservation.getChosenExcursions();
+     // Iterate through user's reservations
+     for (Object reservation : $reservations) {
+         // Ensure the reservation date is within the last year
+         Reservation reservationClass1 = (Reservation) reservation;
+         if (reservationClass1.getArrangement().getDate().isAfter($yearAgo)) {
+             // Get the chosen excursions from the reservation
+             List<Excursion> chosenExcursions = reservationClass1.getChosenExcursions();
             
-//             // Iterate through each chosen excursion
-//             for (Excursion chosenExcursion : chosenExcursions) {
-//                 totalExcursions++;
+             // Iterate through each chosen excursion
+             for (Excursion chosenExcursion : chosenExcursions) {
+                 totalExcursions++;
                 
-//                 // Check if the excursion type matches the arrangement's excursions' type
-//                 if ($excursions.contains(chosenExcursion.getExcursionType())) {
-//                     similarExcursionCount++;
-//                 }
-//             }
-//         }
-//     }
+                 // Check if the excursion type matches the arrangement's excursions' type
+                 if ($excursions.contains(chosenExcursion.getType())) {
+                     similarExcursionCount++;
+                 }
+             }
+         }
+     }
     
-//     // Calculate the percentage of similar excursions
-//     if (totalExcursions > 0) {
-//         double percentageSimilar = (double) similarExcursionCount / totalExcursions;
+     // Calculate the percentage of similar excursions
+     if (totalExcursions > 0) {
+         double percentageSimilar = (double) similarExcursionCount / totalExcursions;
         
-//         // If the percentage is at least 40%, mark the arrangement as recommended
-//         if (percentageSimilar >= 0.4) {
-//             modify($arrangement) {
-//                 setRecommendedPoints(getRecommendedPoints() + 1)
-//             };
-//         }
-//     }
-// }
-// end
+         // If the percentage is at least 40%, mark the arrangement as recommended
+         if (percentageSimilar >= 0.4) {
+             modify($arrangement) {
+                             setRecommended(true)
+                         };
+
+                         int incrementedPoint = $arrangement.getRecommendationPoints() + 1;
+                         modify($arrangement){
+                             setRecommendationPoints(incrementedPoint)
+                         };
+         }
+     }
+ }
+ end
 
 
 rule "Trim isRecommended Arrangements to Top 20"
