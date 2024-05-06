@@ -20,38 +20,6 @@ import java.util.Comparator;
 import java.util.stream.Collectors;
 import java.lang.Math;
 
-// rule "Check if User is New or Not"
-// salience 10
-// when
-//     // Pattern to match User objects and extract the 'ratings' property
-//     $user: UserDrl($isNew: isNew)   
-
-//     $ratings: List() from collect(Rating())
-//     // Evaluation condition to check the number of ratings
-//     eval($ratings.size() >= 3)
-// then
-//     // Modify the 'isNew' property to false if the user has 3 or more ratings
-//     modify($user) {
-//         setIsNew(false)
-//     };
-//     System.out.println("poludecu jos vise");
-// end
-
-// rule "Check if User is New"
-// salience 9
-// when
-//     $user: UserDrl($isNew: isNew)   
-
-//     $ratings: List() from collect(Rating())
-//     // Evaluation condition to check the number of ratings
-//     eval($ratings.size() < 3)
-// then
-//     // Modify the 'isNew' property to true if the user has less than 3 ratings
-//     modify($user) {
-//         setIsNew(true)
-//     };
-//     System.out.println("poludecu");
-// end
 
 
 rule "Check User Recommendation Based on Pearson Similarity"
@@ -108,11 +76,11 @@ then
 
                 for (RatingDrl otherUserRating : otherUserRatings) {
 
-                    System.out.println("User rating: " + userRating.getId());
-                    System.out.println("Other user rating: " + otherUserRating.getId());
-                    System.out.println("Arrangement ID: " + arrangementClass.getId());
-                    System.out.println("User ID: " + otherUserDrl.getId());
-                    System.out.println("Other user rating ID: " + userRating.getUserId());
+                    // System.out.println("User rating: " + userRating.getId());
+                    // System.out.println("Other user rating: " + otherUserRating.getId());
+                    // System.out.println("Arrangement ID: " + arrangementClass.getId());
+                    // System.out.println("User ID: " + otherUserDrl.getId());
+                    // System.out.println("Other user rating ID: " + userRating.getUserId());
 
                     if (otherUserRating.getArrangementId().equals(arrangementClass.getId()) && otherUserRating.getUserId().equals(otherUserDrl.getId())) {
                         otherUserRatingsForArrangement.add(otherUserRating);
@@ -151,7 +119,7 @@ then
                         modify($newArrangement){
                             setRecommendationPoints(incrementedPoint)
                         };
-                        System.out.println("Arrangement " + $newArrangement.getId() + " is recommended based on Pearson correlation");
+                        // System.out.println("Arrangement " + $newArrangement.getId() + " is recommended based on Pearson correlation");
                         break;
                     }
                 }
