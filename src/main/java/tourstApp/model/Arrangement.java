@@ -62,6 +62,7 @@ public class Arrangement extends GenericEntity{
     @Nullable
     private RatingType ratingType;
 
+    @Column
     @Nullable
     private Integer recommendationPoints;
 

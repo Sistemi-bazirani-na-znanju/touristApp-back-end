@@ -16,6 +16,7 @@ import tourstApp.model.Rating;
 import tourstApp.model.User;
 import tourstApp.repository.ArrangementRepository;
 import tourstApp.repository.UserRepository;
+import tourstApp.util.RatingDrl;
 import tourstApp.util.UserDrl;
 
 
@@ -50,7 +51,7 @@ public class ArrangementService {
 
         List<Arrangement> arrangements = arrangementRepository.findAll();
 
-        List<Rating> ratings = userRepository.findRatingsByUserId(userId);
+        List<Rating> userRatings = userRepository.findRatingsByUserId(userId);
 
         User user = userRepository.findUserById(userId);
 
@@ -64,7 +65,7 @@ public class ArrangementService {
 
         kieSession.insert(userDrl);        
 
-        for (Rating rating : ratings) {
+        for (Rating rating : userRatings) {
             System.out.println("SENT IN SESSION");
             kieSession.insert(rating);
         }
@@ -79,20 +80,40 @@ public class ArrangementService {
             kieSession.dispose();
             kieSession = kieContainer.newKieSession("authSession2");
 
+            List<Rating> ratings = userRepository.findRatingsByUserId(userId);
+            List<RatingDrl> ratingDrls = new ArrayList();
+            for (Rating r : ratings){
+                ratingDrls.add(new RatingDrl(r));
+            }
 
             kieSession.insert(userId);
             kieSession.insert(userDrl);
-            for (UserDrl uDrl : userDrls){
-                System.out.println("SENT IN SESSION USERDRLS");
-                kieSession.insert(uDrl);
+
+            // for (UserDrl uDrl : userDrls){
+            //     System.out.println("SENT IN SESSION USERDRLS");
+            //     kieSession.insert(uDrl);
+            // }
+            for (RatingDrl rDrl : ratingDrls){
+                System.out.println("SENT IN SESSION RATINGDRLS");
+                kieSession.insert(rDrl);
             }
             for (Arrangement arr : arrangements) {
                 System.out.println("SENT IN SESSION ARRANGEMENTS");
                 kieSession.insert(arr);
             }
+            
 
             kieSession.fireAllRules();
+            kieSession.dispose();
 
+            for (Arrangement arr : arrangements) {
+                if(arr.isRecommended()){
+                    System.out.println("RECOMMENDED: " + arr.getName());
+                }
+            }
+
+            arrangements = findRecommended(arrangements);
+            return arrangements;
         }
 
 
@@ -158,5 +179,11 @@ public class ArrangementService {
         return recommendedArrangements.stream()
                                       .filter(arrangement -> arrangement.getAverageRating() > 2.5)
                                       .collect(Collectors.toList());
+    }
+
+    public List<Arrangement> findRecommended(List<Arrangement> arrangements) {
+        return arrangements.stream()
+                           .filter(arrangement -> arrangement.isRecommended())
+                           .collect(Collectors.toList());
     }
 }
