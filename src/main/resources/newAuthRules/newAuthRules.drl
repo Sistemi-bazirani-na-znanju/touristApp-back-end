@@ -1,0 +1,45 @@
+package newAuthRules;
+dialect  "mvel"
+
+import tourstApp.model.User
+import tourstApp.model.Arrangement
+import tourstApp.model.Destination
+import tourstApp.model.ExcursionType
+import tourstApp.model.Excursion
+import tourstApp.model.ExcursionTypeClass
+import java.util.List
+
+
+
+//rule "Check if destination is appropriate"
+//    when
+//        $user: User(destinations != null, !destinations.isEmpty())
+//        $arrangement: Arrangement(destination memberOf $user.getDestinations())
+//    then
+//        System.out.println("Pravilo check if destination is appropriate");
+//        $arrangement.setRecommended(true);
+//end
+
+rule "Check if at least two excursions with types from user's ExcursionTypes are found"
+when
+    $user: User(destinations != null, !destinations.isEmpty(), excursionTypes != null, !excursionTypes.isEmpty())
+    $arrangement: Arrangement(destination memberOf $user.getDestinations())
+
+    $excursionTypeClasses: List() from collect(ExcursionTypeClass() from $user.getExcursionTypes())
+
+    $excursion1: Excursion($type1: type) from $arrangement.getExcursions()
+    $excursionTypeClass: ExcursionTypeClass(excursionType == $type1) from $excursionTypeClasses
+
+    $excursion2: Excursion($type2: type, this != $excursion1) from $arrangement.getExcursions()
+    $excursionTypeClass2: ExcursionTypeClass(excursionType == $type2) from $excursionTypeClasses
+then
+    System.out.println("At least 2 excursions with types from user's ExcursionTypes found in the arrangement");
+    $arrangement.setRecommended(true);
+end
+
+
+
+
+
+
+

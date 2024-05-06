@@ -96,11 +96,11 @@ import javax.persistence.*;
             this.isNew = isNew;
         }
 
-        public List<Destination> GetDestinations() {
+        public List<Destination> getDestinations() {
             return this.destinations;
         }
 
-        public List<ExcursionTypeClass> GetExcursionTypes() {
+        public List<ExcursionTypeClass> getExcursionTypes() {
             return this.excursionTypes;
         }
 
@@ -124,15 +124,11 @@ import javax.persistence.*;
             return true;
         }
 
-        public boolean getIsNew() {
-            return this.isNew;
-        }
-
         public void setNew(boolean isNew) {
             this.isNew = isNew;
         }
 
-        public List<Destination> getDestinations() {
-            return this.destinations;
-        }
+
+
+
     }

@@ -1,6 +1,8 @@
 package tourstApp.util;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import tourstApp.converter.ListToStringConverter;
 import tourstApp.converter.ListToStringJsonConverter;
 import tourstApp.model.Role;
@@ -66,6 +68,10 @@ public class UserDrl {
 
     public void setIsNew(boolean isNew) {
         this.isNew = isNew;
+    }
+
+    public Long getId() {
+        return this.id;
     }
 
 

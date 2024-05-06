@@ -1,0 +1,17 @@
+package destinationRules;
+dialect  "mvel"
+
+import tourstApp.model.Arrangement
+import tourstApp.model.User
+import tourstApp.model.Reservation
+import tourstApp.model.Destination
+
+rule "destinationRules"
+    when
+        $user : User()
+        $reservation : Reservation(user == $user, $arrangement : arrangement)
+
+
+
+    then
+end

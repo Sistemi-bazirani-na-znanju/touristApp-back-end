@@ -1,20 +1,24 @@
 package tourstApp.service;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.hibernate.Hibernate;
 import org.kie.api.KieServices;
 import org.kie.api.event.rule.DebugAgendaEventListener;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tourstApp.model.Arrangement;
-import tourstApp.model.Excursion;
-import tourstApp.model.Rating;
-import tourstApp.model.User;
+import org.springframework.transaction.annotation.Transactional;
+import tourstApp.model.*;
 import tourstApp.repository.ArrangementRepository;
+import tourstApp.repository.ReservationRepository;
 import tourstApp.repository.UserRepository;
 import tourstApp.util.UserDrl;
 
@@ -27,10 +31,14 @@ public class ArrangementService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private ReservationRepository reservationRepository;
+
     public Arrangement findById(Integer id) {
         return arrangementRepository.findById(id).orElse(null);
     }
 
+    @Transactional
     public List<Arrangement> findAll() {
 
         Long userId = (long) 1;
@@ -73,6 +81,7 @@ public class ArrangementService {
 
         User user = userRepository.findUserById(userId);
 
+
         List<User> users = userRepository.findAll();
         List<UserDrl> userDrls = new ArrayList();
         for (User u : users) {
@@ -89,28 +98,56 @@ public class ArrangementService {
 
         }
 
+
+
+
         kieSession.fireAllRules();
 
         if (!userDrl.getIsNew()) {
             System.out.println("User is old");
 
             kieSession.dispose();
-            kieSession = kieContainer.newKieSession("authSession2");
 
-            kieSession.insert(userId);
-            kieSession.insert(userDrl);
-            for (UserDrl uDrl : userDrls) {
-                System.out.println("SENT IN SESSION USERDRLS");
-                kieSession.insert(uDrl);
-            }
+
+
+
+            kieSession = kieContainer.newKieSession("newAuthSession");
+
+            //===========MOJE===========
+
+            kieSession = kieContainer.newKieSession("newAuthSession");
+
+
             for (Arrangement arr : arrangements) {
-                System.out.println("SENT IN SESSION ARRANGEMENTS");
+                kieSession.insert(user);
                 kieSession.insert(arr);
             }
 
             kieSession.fireAllRules();
+            kieSession.dispose();
+
+            var temp = arrangements;
+
+            // =============================================
+
+
+//            kieSession = kieContainer.newKieSession("authSession2");
+//
+//            kieSession.insert(userId);
+//            kieSession.insert(userDrl);
+//            for (UserDrl uDrl : userDrls) {
+//                System.out.println("SENT IN SESSION USERDRLS");
+//                kieSession.insert(uDrl);
+//            }
+//            for (Arrangement arr : arrangements) {
+//                System.out.println("SENT IN SESSION ARRANGEMENTS");
+//                kieSession.insert(arr);
+//            }
+//
+//            kieSession.fireAllRules();
 
         }
+
 
         if (false) {
 
@@ -137,6 +174,9 @@ public class ArrangementService {
         }
 
         return arrangementRepository.findAll();
+//        return arrangements.stream()
+//                .filter(Arrangement::isRecommended)
+//                .collect(Collectors.toList());
     }
 
     public Arrangement save(Arrangement arrangement) {
@@ -174,4 +214,6 @@ public class ArrangementService {
                 .filter(arrangement -> arrangement.getAverageRating() > 2.5)
                 .collect(Collectors.toList());
     }
+
+
 }

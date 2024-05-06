@@ -20,4 +20,9 @@
         <ksession name="authSession2"/>
 
     </kbase>
+
+    <kbase name="newAuthRules" packages="newAuthRules">
+        <ksession name="newAuthSession"/>
+
+    </kbase>
 </kmodule>
