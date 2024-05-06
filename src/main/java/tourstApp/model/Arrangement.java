@@ -42,15 +42,12 @@ public class Arrangement extends GenericEntity{
     private LocalDateTime date;
 
     @Column
-    @Nullable
     private boolean isNew;
 
     @Column
-    @Nullable
     private boolean isPopular;
 
     @Column
-    @Nullable
     private boolean isRecommended;
 
     @Nullable
