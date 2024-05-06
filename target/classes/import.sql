@@ -114,8 +114,8 @@ INSERT INTO excursion (arrangement_id, name, price, type) VALUES (3, 'Excursion 
 INSERT INTO excursion (arrangement_id, name, price, type) VALUES (3, 'Excursion 11', 750.0, 4);
 
 INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (1, 4.8, 1);
-INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (2, 4.6, 1);
-INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (3, 4.2, 1);
+INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (1, 4.6, 1);
+INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (2, 4.2, 1);
 
 INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (1, 4.5, 2); -- Marko rates arrangement 1
 INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (2, 4.7, 2); -- Marko rates arrangement 2
@@ -135,11 +135,11 @@ INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (9, 4.6, 2);
 INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (9, 4.2, 3);
 INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (9, 4.8, 4);
 
-
-INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (11, 4.8, 2);
-INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (17, 4.6, 2);
-INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (20, 4.2, 2);
+INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (11, 4.8, 1);
+INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (12, 4.6, 1);
+INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (20, 4.2, 1);
 
 INSERT INTO reservation (number_of_people, total_price, arrangement_id, user_id) VALUES (4,300,3,1)
 INSERT INTO reservation (number_of_people, total_price, arrangement_id, user_id) VALUES (4,300,2,1)
+
 
