@@ -52,9 +52,9 @@ public class ArrangementController {
                      content = @Content(mediaType = "application/json",
                      array = @ArraySchema(schema = @Schema(implementation = Arrangement.class))))
     })
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<ArrangementDTO>> getAll() {
-        List<Arrangement> arrangements = arrangementService.findAll();
+    @GetMapping(value = "findAll/{userId}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<ArrangementDTO>> getAll(@PathVariable Integer userId) {
+        List<Arrangement> arrangements = arrangementService.findAll(userId);
 
 
         List<ArrangementDTO> arrangementDTOs = new ArrayList<>();
