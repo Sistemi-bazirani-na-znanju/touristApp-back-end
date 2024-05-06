@@ -1,9 +1,10 @@
-package unauthRules
+package authRules
 
 import tourstApp.model.Reservation;
 import tourstApp.model.Excursion;
 import tourstApp.model.ExcursionType;
 import tourstApp.model.Rating;
+import tourstApp.model.User;
 import tourstApp.model.Arrangement;
 import tourstApp.model.RatingType;
 import tourstApp.service.ArrangementService;
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
 import java.util.Random;
 
 rule "Check if User is New or Not"
+no-loop true
 when
     // Pattern to match User objects and extract the 'ratings' property
     $user: User($ratings: ratings, $isNew: isNew)
@@ -21,8 +23,9 @@ when
     eval($ratings.size() >= 3)
 then
     // Modify the 'isNew' property to false if the user has 3 or more ratings
+    System.out.println("Executing rule: Check if User is New or Not");
     modify($user) {
-        setIsNew(false)
+        setNew(false)
     };
 end
 
@@ -34,10 +37,12 @@ when
     eval($ratings.size() < 3)
 then
     // Modify the 'isNew' property to true if the user has less than 3 ratings
+    System.out.println("Executing rule: Check if User is New");
     modify($user) {
-        setIsNew(true)
+        setNew(true)
     };
 end
+
 
 rule "Check User Recommendation Based on Pearson Similarity"
 when
@@ -55,7 +60,7 @@ then
     // Filter ratings to include only the ratings of arrangements they both rated
     List<Rating> filteredUserRatings = new ArrayList<>();
     List<Rating> filteredOtherUserRatings = new ArrayList<>();
-    
+
     // Iterate through the ratings to filter for common arrangements
     for (Rating userRating : $userRatings) {
         for (Rating otherUserRating : $otherUserRatings) {
@@ -171,7 +176,7 @@ then
             destinationReservationCount++;
         }
     }
-    
+
     // If the user had at least 2 reservations with the same destination in the last year, mark the arrangement as recommended
     if (destinationReservationCount >= 2) {
         modify($arrangement) {
@@ -181,18 +186,18 @@ then
     // Calculate the percentage of similar excursion types the user has attended in the last year
     int similarExcursionCount = 0;
     int totalExcursions = 0;
-    
+
     // Iterate through user's reservations
     for (Reservation reservation : $user.getReservations()) {
         // Ensure the reservation date is within the last year
         if (reservation.getDate().isAfter(yearAgo)) {
             // Get the chosen excursions from the reservation
             List<Excursion> chosenExcursions = reservation.getChosenExcursions();
-            
+
             // Iterate through each chosen excursion
             for (Excursion chosenExcursion : chosenExcursions) {
                 totalExcursions++;
-                
+
                 // Check if the excursion type matches the arrangement's excursions' type
                 if ($excursions.contains(chosenExcursion.getExcursionType())) {
                     similarExcursionCount++;
@@ -200,11 +205,11 @@ then
             }
         }
     }
-    
+
     // Calculate the percentage of similar excursions
     if (totalExcursions > 0) {
         double percentageSimilar = (double) similarExcursionCount / totalExcursions;
-        
+
         // If the percentage is at least 40%, mark the arrangement as recommended
         if (percentageSimilar >= 0.4) {
             modify($arrangement) {

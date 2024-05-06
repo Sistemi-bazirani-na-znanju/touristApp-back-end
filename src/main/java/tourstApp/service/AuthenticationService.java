@@ -54,6 +54,7 @@ public class AuthenticationService {
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
         user.setRole(role);
+        user.setNew(false);
     
         // Initialize a list to store Destination objects
         List<Destination> destinations = new ArrayList<>();
@@ -86,7 +87,8 @@ public class AuthenticationService {
         // Save the User object to the repository
         return repository.save(user);
     }
-    
+
+
 
     public AuthenticationResponse authenticate(AuthenticationRequest request){
 

@@ -1,7 +1,9 @@
     package tourstApp.model;
 
     import lombok.Data;
-import tourstApp.converter.ListToStringConverter;
+    import lombok.Getter;
+    import lombok.Setter;
+    import tourstApp.converter.ListToStringConverter;
 import tourstApp.converter.ListToStringJsonConverter;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -15,7 +17,8 @@ import javax.persistence.*;
     import java.util.List;
 
     @Entity
-    @Data
+    @Getter
+    @Setter
     @Table(name = "app_user")
     public class User implements UserDetails {
 
@@ -54,11 +57,12 @@ import javax.persistence.*;
         @JoinTable(
                 name = "user_excursion_types",
                 joinColumns = @JoinColumn(name = "user_id"),
-                inverseJoinColumns = @JoinColumn(name = "excursion_type_id")
+                inverseJoinColumns = @JoinColumn(name = "excursion_type_id"
+                )
         )
         private List<ExcursionTypeClass> excursionTypes;
 
-        @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = javax.persistence.CascadeType.ALL)
+        @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = javax.persistence.CascadeType.ALL)
         private List<Rating> ratings;
 
         public User() {
@@ -110,5 +114,17 @@ import javax.persistence.*;
         @Override
         public boolean isEnabled() {
             return true;
+        }
+
+        public boolean getIsNew() {
+            return this.isNew;
+        }
+
+        public void setNew(boolean isNew) {
+            this.isNew = isNew;
+        }
+
+        public List<Destination> getDestinations() {
+            return this.destinations;
         }
     }
