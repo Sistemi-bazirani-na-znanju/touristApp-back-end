@@ -84,6 +84,14 @@ import javax.persistence.*;
             return this.email;
         }
 
+        public boolean getIsNew() {
+            return this.isNew;
+        }
+
+        public void setIsNew(boolean isNew) {
+            this.isNew = isNew;
+        }
+
         public List<Destination> GetDestinations() {
             return this.destinations;
         }
