@@ -18,6 +18,7 @@ import java.util.Random;
 import java.lang.Long;
 import java.util.Comparator;
 import java.util.stream.Collectors;
+import java.lang.Math;
 
 // rule "Check if User is New or Not"
 // salience 10
@@ -53,102 +54,116 @@ import java.util.stream.Collectors;
 // end
 
 
-// rule "Check User Recommendation Based on Pearson Similarity"
-// when
-//     // Get a list of other users and an arrangement
-//     $userId: Long()
-//     $user: UserDrl(id == $userId)
-//     $otherUsers: List() from collect(UserDrl(id != $userId))
+rule "Check User Recommendation Based on Pearson Similarity"
+no-loop true
+when
+    // Get a list of other users and an arrangement
+    $userId: Long()
+    $user: UserDrl(id == $userId)
+    $otherUsers: List() from collect(UserDrl(id != $userId))
 
-//     $userRatings: List() from collect(RatingDrl(userId == $userId))
-//     $otherUserRatings: List() from collect(RatingDrl(userId != $userId))
-//     $arrangements: List() from collect(Arrangement())
+    $userRatings: List() from collect(RatingDrl(userId == $userId))
+    $otherUserRatings: List() from collect(RatingDrl(userId != $userId))
+    $newArrangement: Arrangement()
+    $arrangements: List() from collect(Arrangement(id != $newArrangement.id))
 
-// then
-//     // Iterate through the other users
-//     for  (Object otherUser : $otherUsers) {
-//         // Retrieve other user's ratings
-//         List<RatingDrl> otherUserRatings = new ArrayList<>();
+then
+    // Iterate through the other users
+    for (Object otherUser : $otherUsers) {
+
+        UserDrl otherUserDrl = (UserDrl) otherUser;
+        // Retrieve other user's ratings
+        List<RatingDrl> otherUserRatings = new ArrayList<>();
+
+
+        for (Object rating : $otherUserRatings) {
+            RatingDrl ratingDrl = (RatingDrl) rating;
+            otherUserRatings.add(ratingDrl);
+        }   
         
-//         // Initialize variables for Pearson correlation calculation
-//         double pearsonCorrelation = 0.0;
-//         double sumRaRu = 0.0;
-//         double sumRaSquared = 0.0;
-//         double sumRuSquared = 0.0;
-        
-//         List<RatingDrl> userRatingsForArrangement = new ArrayList<>();
-//         List<RatingDrl> otherUserRatingsForArrangement = new ArrayList<>();
+        // Initialize variables for Pearson correlation calculation
+        double pearsonCorrelation = 0.0;
+        double sumRaRu = 0.0;
+        double sumRaSquared = 0.0;
+        double sumRuSquared = 0.0;
 
-//         for (Object userRating : $userRatings) {
-//             RatingDrl rating = (RatingDrl) userRating;
-//             if (rating.getArrangementId().equals($arrangement.getId())) {
-//                 userRatingsForArrangement.add(rating);
-//             }
-//         }
+       
+        List<RatingDrl> userRatingsForArrangement = new ArrayList<>();
+        List<RatingDrl> otherUserRatingsForArrangement = new ArrayList<>();
 
-        // Initialize variables for filtered ratings
-        // $userRatingsForArrangement: List()
-        // $otherUserRatingsForArrangement: List()
-        // Rating userRatingForArrangement = null;
-        // Rating otherUserRatingForArrangement = null;
 
-        // Iterate through the ratings to find common ratings for the arrangement
-        // for (Rating userRating : $userRatings) {
-        //     if (userRating.getArrangement().equals($arrangement)) {
-        //         userRatingForArrangement = userRating;
-        //         break;
-        //     }
-        // }
+        for (Object arrangement: $arrangements) {
+            Arrangement arrangementClass = (Arrangement) arrangement;
 
-        // if (userRatingForArrangement != null) {
-        //     for (Rating otherUserRating : otherUserRatings) {
-        //         if (otherUserRating.getArrangement().equals($arrangement)) {
-        //             otherUserRatingForArrangement = otherUserRating;
-        //             break;
-        //         }
-        //     }
+            for (Object userRating : $userRatings) {
+                RatingDrl rating = (RatingDrl) userRating;
+                if (rating.getArrangementId().equals(arrangementClass.getId())) {
+                    userRatingsForArrangement.add(rating);
+                }
+            }
 
-        //     // If both users have rated the arrangement
-        //     if (otherUserRatingForArrangement != null) {
-        //         // Calculate mean ratings for the arrangement
-        //         double meanUserRating = $userRatings.stream()
-        //             .filter(r -> r.getArrangement().equals($arrangement))
-        //             .mapToDouble(Rating::getRatingValue)
-        //             .average().orElse(0.0);
-                
-        //         double meanOtherUserRating = otherUserRatings.stream()
-        //             .filter(r -> r.getArrangement().equals($arrangement))
-        //             .mapToDouble(Rating::getRatingValue)
-        //             .average().orElse(0.0);
+            // Iterate through the ratings to find common ratings for the arrangement
+            for (RatingDrl userRating : userRatingsForArrangement) {
 
-        //         // Calculate components of Pearson correlation
-        //         double rai = userRatingForArrangement.getRatingValue();
-        //         double rui = otherUserRatingForArrangement.getRatingValue();
 
-        //         sumRaRu += (rai - meanUserRating) * (rui - meanOtherUserRating);
-        //         sumRaSquared += Math.pow((rai - meanUserRating), 2);
-        //         sumRuSquared += Math.pow((rui - meanOtherUserRating), 2);
+                for (RatingDrl otherUserRating : otherUserRatings) {
 
-        //         // Calculate the Pearson correlation
-        //         if (sumRaSquared > 0 && sumRuSquared > 0) {
-        //             pearsonCorrelation = sumRaRu / (Math.sqrt(sumRaSquared) * Math.sqrt(sumRuSquared));
-        //         }
+                    System.out.println("User rating: " + userRating.getId());
+                    System.out.println("Other user rating: " + otherUserRating.getId());
+                    System.out.println("Arrangement ID: " + arrangementClass.getId());
+                    System.out.println("User ID: " + otherUserDrl.getId());
+                    System.out.println("Other user rating ID: " + userRating.getUserId());
 
-        //         // Check if correlation is greater than 0.5 and user's rating for arrangement is greater than 3
-        //         if (pearsonCorrelation > 0.5 && rai > 3) {
-        //             // Set the arrangement as recommended
-        //             modify($arrangement) {
-        //                 setRecommendedPoints(getRecommendedPoints() + 1)
-        //             };
-        //             break;
-//         }
-//     }
-// }
-//     }
-// end
+                    if (otherUserRating.getArrangementId().equals(arrangementClass.getId()) && otherUserRating.getUserId().equals(otherUserDrl.getId())) {
+                        otherUserRatingsForArrangement.add(otherUserRating);
+                        break;
+                    }
+                }
+
+                if (!otherUserRatingsForArrangement.isEmpty()) {
+
+                    // Calculate mean ratings for the arrangement
+                    double meanUserRating = userRatingsForArrangement.stream()
+                        .mapToDouble(RatingDrl::getRatingValue)
+                        .average().orElse(0.0);
+                    
+                    double meanOtherUserRating = otherUserRatingsForArrangement.stream()
+                        .mapToDouble(RatingDrl::getRatingValue)
+                        .average().orElse(0.0);
+
+                    // Calculate components of Pearson correlation
+                    double rai = userRating.getRatingValue();
+                    double rui = otherUserRatingsForArrangement.get(0).getRatingValue();
+
+                    sumRaRu += (rai - meanUserRating) * (rui - meanOtherUserRating);
+                    sumRaSquared += Math.pow((rai - meanUserRating), 2);
+                    sumRuSquared += Math.pow((rui - meanOtherUserRating), 2);
+
+                    // Calculate the Pearson correlation
+                    if (sumRaSquared > 0 && sumRuSquared > 0) {
+                        pearsonCorrelation = sumRaRu / (Math.sqrt(sumRaSquared) * Math.sqrt(sumRuSquared));
+                    }
+
+                    // Check if correlation is greater than 0.5 and user's rating for arrangement is greater than 3
+                    if (pearsonCorrelation > 0.5 && rai > 3) {
+                        // Set the arrangement as recommended
+                        int incrementedPoint = $newArrangement.getRecommendationPoints() + 1;
+                        modify($newArrangement){
+                            setRecommendationPoints(incrementedPoint)
+                        };
+                        System.out.println("Arrangement " + $newArrangement.getId() + " is recommended based on Pearson correlation");
+                        break;
+                    }
+                }
+            }
+        }
+    }
+end
+
 
 
 rule "Mark Arrangement as Recommended Based on Similar Arrangements"
+no-loop true
 when
     // $arrangement: Arrangement($arrangementId : id)
     $userId: Long() // The user ID

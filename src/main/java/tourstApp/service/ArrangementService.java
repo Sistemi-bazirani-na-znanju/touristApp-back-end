@@ -93,8 +93,12 @@ public class ArrangementService {
             //     System.out.println("SENT IN SESSION USERDRLS");
             //     kieSession.insert(uDrl);
             // }
+            for (UserDrl uDrl : userDrls){
+                System.out.println("SENT IN SESSION USERDRLS");
+                kieSession.insert(uDrl);
+            }
             for (RatingDrl rDrl : ratingDrls){
-                System.out.println("SENT IN SESSION RATINGDRLS");
+                System.out.println("SENT IN SESSION RATINGDRLS USERID: " + rDrl.getUserId());
                 kieSession.insert(rDrl);
             }
             for (Arrangement arr : arrangements) {

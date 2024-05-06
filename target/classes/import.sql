@@ -66,6 +66,7 @@ INSERT INTO user_excursion_types (user_id, excursion_type_id) VALUES (3, 3); -- 
 
 -- Insert Arrangement data
 
+INSERT INTO arrangement (name, type, price, average_rating, date, is_new, is_popular, is_recommended, recommendation_points) VALUES ('Arrangement 1', 1, 1000.0, 1.0, '2024-03-03T00:00:00', FALSE, FALSE, FALSE, 0);
 INSERT INTO arrangement (name, type, price, average_rating, date, is_new, is_popular, is_recommended, recommendation_points) VALUES ('Arrangement 2', 1, 1000.0, 1.0, '2024-03-03T00:00:00', FALSE, FALSE, FALSE, 0);
 INSERT INTO arrangement (name, type, price, average_rating, date, is_new, is_popular, is_recommended, recommendation_points) VALUES ('Arrangement 3', 1, 400.0, 3.0, '2023-03-03T00:00:00', FALSE, FALSE, FALSE, 0);
 INSERT INTO arrangement (name, type, price, average_rating, date, is_new, is_popular, is_recommended, recommendation_points) VALUES ('Arrangement 4', 1, 400.0, 4.0, '2024-03-03T00:00:00', FALSE, FALSE, FALSE, 0);
@@ -112,8 +113,8 @@ INSERT INTO excursion (arrangement_id, name, price, type) VALUES (3, 'Excursion 
 INSERT INTO excursion (arrangement_id, name, price, type) VALUES (3, 'Excursion 11', 750.0, 4);
 
 INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (1, 4.8, 1);
-INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (1, 4.6, 1);
-INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (2, 4.2, 1);
+INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (2, 4.6, 1);
+INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (3, 4.2, 1);
 
 INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (1, 4.5, 2); -- Marko rates arrangement 1
 INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (2, 4.7, 2); -- Marko rates arrangement 2
@@ -133,6 +134,6 @@ INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (9, 4.6, 2);
 INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (9, 4.2, 3);
 INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (9, 4.8, 4);
 
-INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (11, 4.8, 1);
-INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (12, 4.6, 1);
-INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (20, 4.2, 1);
+INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (11, 4.8, 2);
+INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (17, 4.6, 2);
+INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (20, 4.2, 2);
