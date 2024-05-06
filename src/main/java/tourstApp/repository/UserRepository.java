@@ -8,12 +8,16 @@ import org.springframework.data.repository.query.Param;
 
 import tourstApp.model.Destination;
 import tourstApp.model.ExcursionTypeClass;
+import tourstApp.model.Rating;
 import tourstApp.model.User;
 
 public interface UserRepository extends JpaRepository<User,Integer> {
 
     User findUserByEmail(String email);
     User findUserById(Long id);
+
+    @Query("SELECT r FROM User u JOIN u.ratings r WHERE u.id = :userId")
+    List<Rating> findRatingsByUserId(@Param("userId") Long userId);
 
     @Query("SELECT d FROM User u JOIN u.destinations d WHERE u.id = :userId")
     List<Destination> findDestinationsByUserId(@Param("userId") Long userId);

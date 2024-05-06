@@ -12,7 +12,12 @@
         <ksession name="unauthSession2"/>
     </kbase>
 
-    <kbase name="collectKBase3" packages="authRules">
-        <ksession name="authSession"/>
+    <kbase name="authRules1" packages="authRules">
+        <ksession name="authSession1"/>
+    </kbase>
+
+    <kbase name="authRules2" packages="authRules">
+        <ksession name="authSession2"/>
+
     </kbase>
 </kmodule>

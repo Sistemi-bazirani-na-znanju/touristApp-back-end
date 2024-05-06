@@ -13,13 +13,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Arrangement extends GenericEntity{
+public class Arrangement extends GenericEntity {
 
     @Column
     @NotNull
@@ -59,7 +58,9 @@ public class Arrangement extends GenericEntity{
     @OneToOne(fetch = FetchType.EAGER)
     private Destination destination;
 
-    
+    @Nullable
+    private Integer recommendationPoints;
+
     @OneToMany(mappedBy = "arrangement", fetch = FetchType.LAZY, cascade = javax.persistence.CascadeType.ALL)
     private List<Excursion> excursions;
 
@@ -68,18 +69,16 @@ public class Arrangement extends GenericEntity{
 
     public void setExcursions(List<Excursion> excursions) {
         this.excursions = excursions;
-        if(excursions != null) {
+        if (excursions != null) {
             excursions.forEach(excursion -> excursion.setArrangement(this));
         }
     }
-  
+
     public void setRatings(List<Rating> ratings) {
         this.ratings = ratings;
-        if(ratings != null) {
+        if (ratings != null) {
             ratings.forEach(excursion -> excursion.setArrangement(this));
         }
     }
 
 }
-
-

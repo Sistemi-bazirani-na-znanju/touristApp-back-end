@@ -28,6 +28,7 @@ import tourstApp.dto.RatingDTO;
 import tourstApp.model.Arrangement;
 import tourstApp.model.Excursion;
 import tourstApp.model.Rating;
+import tourstApp.service.ArrangementAuthService;
 import tourstApp.service.ArrangementService;
 import tourstApp.service.RatingService;
 
@@ -38,6 +39,9 @@ public class ArrangementController {
     
     @Autowired
     private ArrangementService arrangementService;
+
+    @Autowired
+    private ArrangementAuthService arrangementAuthService;
 
     @Autowired
     private RatingService ratingService;

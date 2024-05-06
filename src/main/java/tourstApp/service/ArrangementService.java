@@ -1,5 +1,6 @@
 package tourstApp.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,49 +13,130 @@ import org.springframework.stereotype.Service;
 import tourstApp.model.Arrangement;
 import tourstApp.model.Excursion;
 import tourstApp.model.Rating;
+import tourstApp.model.User;
 import tourstApp.repository.ArrangementRepository;
-
-
+import tourstApp.repository.UserRepository;
+import tourstApp.util.UserDrl;
 
 @Service
 public class ArrangementService {
-    
+
     @Autowired
     private ArrangementRepository arrangementRepository;
 
-    public Arrangement findById(Integer id){
+    @Autowired
+    private UserRepository userRepository;
+
+    public Arrangement findById(Integer id) {
         return arrangementRepository.findById(id).orElse(null);
     }
 
-    public List<Arrangement> findAll(){
+    public List<Arrangement> findAll() {
+
+        Long userId = (long) 1;
 
         KieServices ks = KieServices.Factory.get();
-		KieContainer kieContainer = ks.getKieClasspathContainer();
-        KieSession kieSession = kieContainer.newKieSession("unauthSession");
+        KieContainer kieContainer = ks.getKieClasspathContainer();
+        // KieSession kieSession = kieContainer.newKieSession("unauthSession");
+        // kieSession.addEventListener(new DebugAgendaEventListener());
+
+        // ============
+        // List<Arrangement> arrangementsList = arrangementRepository.findAll();
+        // for (Arrangement arr : arrangementsList) {
+        // System.out.println("POSLAO U SESIJU");
+        // kieSession.insert(arr);
+        // }
+
+        // kieSession.fireAllRules();
+        // kieSession.dispose();
+
+        // kieSession = kieContainer.newKieSession("unauthSession2");
+        // for (Arrangement arr : arrangementsList) {
+        // System.out.println("POSLAO U SESIJU");
+        // kieSession.insert(arr);
+        // }
+
+        // kieSession.fireAllRules();
+        // kieSession.dispose();
+        // for (Arrangement arr : arrangementsList) {
+        // arrangementRepository.save(arr);
+        // }
+        // return arrangementsList;
+
+        // =============
+        KieSession kieSession = kieContainer.newKieSession("authSession1");
         kieSession.addEventListener(new DebugAgendaEventListener());
- 
-        List<Arrangement> arrangementsList = arrangementRepository.findAll();
-        for (Arrangement arr : arrangementsList) {
-            System.out.println("POSLAO U SESIJU");
-            kieSession.insert(arr);
+
+        List<Arrangement> arrangements = arrangementRepository.findAll();
+
+        List<Rating> ratings = userRepository.findRatingsByUserId(userId);
+
+        User user = userRepository.findUserById(userId);
+
+        List<User> users = userRepository.findAll();
+        List<UserDrl> userDrls = new ArrayList();
+        for (User u : users) {
+            userDrls.add(new UserDrl(u));
+        }
+
+        UserDrl userDrl = new UserDrl(user);
+
+        kieSession.insert(userDrl);
+
+        for (Rating rating : ratings) {
+            System.out.println("SENT IN SESSION");
+            kieSession.insert(rating);
+
         }
 
         kieSession.fireAllRules();
-        kieSession.dispose();
 
+        if (!userDrl.getIsNew()) {
+            System.out.println("User is old");
 
-        kieSession = kieContainer.newKieSession("unauthSession2");
-        for (Arrangement arr : arrangementsList) {
-            System.out.println("POSLAO U SESIJU");
-            kieSession.insert(arr);
+            kieSession.dispose();
+            kieSession = kieContainer.newKieSession("authSession2");
+
+            kieSession.insert(userId);
+            kieSession.insert(userDrl);
+            for (UserDrl uDrl : userDrls) {
+                System.out.println("SENT IN SESSION USERDRLS");
+                kieSession.insert(uDrl);
+            }
+            for (Arrangement arr : arrangements) {
+                System.out.println("SENT IN SESSION ARRANGEMENTS");
+                kieSession.insert(arr);
+            }
+
+            kieSession.fireAllRules();
+
         }
-        
-       kieSession.fireAllRules();
-       kieSession.dispose();
-       for (Arrangement arr : arrangementsList) {
-            arrangementRepository.save(arr);
-       }
-        return arrangementsList;
+
+        if (false) {
+
+            List<Arrangement> arrangementsList = arrangementRepository.findAll();
+            for (Arrangement arr : arrangementsList) {
+                System.out.println("POSLAO U SESIJU");
+                kieSession.insert(arr);
+                // kieSession.fireAllRules();
+            }
+
+            kieSession.fireAllRules();
+            kieSession.dispose();
+            kieSession = kieContainer.newKieSession("unauthSession2");
+            for (Arrangement arr : arrangementsList) {
+                System.out.println("POSLAO U SESIJU");
+                kieSession.insert(arr);
+                // kieSession.fireAllRules();
+            }
+
+            kieSession.fireAllRules();
+            // List<Arrangement> arrangementsListt = findPoorlyRated(arrangementsList);
+            // System.out.println("nadjena lista je: " + arrangementsListt.size());
+            return arrangementsList;
+        }
+
+        return arrangementRepository.findAll();
     }
 
     public Arrangement save(Arrangement arrangement) {
@@ -75,11 +157,11 @@ public class ArrangementService {
         return arrangementRepository.save(arrangement);
     }
 
-    public List<Excursion> getExcursionsByArrangementId(Integer arrangementId){
+    public List<Excursion> getExcursionsByArrangementId(Integer arrangementId) {
         return arrangementRepository.findExcursionsByArrangementId(arrangementId);
     }
 
-    public List<Rating> getRatingsByArrangementId(Integer arrangementId){
+    public List<Rating> getRatingsByArrangementId(Integer arrangementId) {
         return arrangementRepository.findRatingsByArrangementId(arrangementId);
     }
 
@@ -89,7 +171,7 @@ public class ArrangementService {
 
     public List<Arrangement> findPoorlyRated(List<Arrangement> recommendedArrangements) {
         return recommendedArrangements.stream()
-                                      .filter(arrangement -> arrangement.getAverageRating() > 2.5)
-                                      .collect(Collectors.toList());
+                .filter(arrangement -> arrangement.getAverageRating() > 2.5)
+                .collect(Collectors.toList());
     }
 }

@@ -1,7 +1,9 @@
 INSERT INTO ROLE (id,name) VALUES (1,'ROLE_USER');
 INSERT INTO ROLE (id,name) VALUES (2,'ROLE_ADMIN');
 
-INSERT INTO app_user (first_name, last_name, email, password, role_id, new)VALUES ('Pera', 'Peric', 'peraperic@gmail.com', '$2a$10$nrCPz3vEZvmjlPeNbt4RQ.bSIngRXMlwMxfJJtp1Bhn.f0op9Zcui', 1, false);
+
+INSERT INTO app_user (first_name, last_name, email, password, role_id, new)VALUES ('Pera', 'Peric', 'peraperic@gmail.com', '$2a$10$nrCPz3vEZvmjlPeNbt4RQ.bSIngRXMlwMxfJJtp1Bhn.f0op9Zcui', 1, TRUE);
+
 --password je "password123"
 
 -- Insert destinations
