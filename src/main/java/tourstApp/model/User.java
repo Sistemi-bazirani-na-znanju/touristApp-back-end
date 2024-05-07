@@ -100,6 +100,14 @@ import javax.persistence.*;
             return this.excursionTypes;
         }
 
+        public List<ExcursionType> GetExcursionTypesFromClass() {
+            List<ExcursionType> exTypes = new ArrayList<>();
+            for(ExcursionTypeClass ex : this.excursionTypes){
+                exTypes.add(ex.getExcursionType());
+            }
+            return exTypes;
+        }
+
         @Override
         public boolean isAccountNonExpired() {
             return true;

@@ -14,6 +14,8 @@ INSERT INTO app_user (first_name, last_name, email, password, role_id, new)VALUE
 
 INSERT INTO app_user (first_name, last_name, email, password, role_id, new)VALUES ('Zika', 'Zikic', 'zika@gmail.com', '$2a$10$nrCPz3vEZvmjlPeNbt4RQ.bSIngRXMlwMxfJJtp1Bhn.f0op9Zcui', 1, TRUE);
 
+INSERT INTO app_user (first_name, last_name, email, password, role_id, new)VALUES ('Mile', 'Mile', 'mile@gmail.com', '$2a$10$nrCPz3vEZvmjlPeNbt4RQ.bSIngRXMlwMxfJJtp1Bhn.f0op9Zcui', 1, TRUE);
+
 -- Insert destinations
 -- Insert destinations
 INSERT INTO destination (destination_name) VALUES ('Paris');
@@ -53,6 +55,10 @@ INSERT INTO user_destinations (user_id, destination_id) VALUES (2, 1); -- Pera P
 INSERT INTO user_destinations (user_id, destination_id) VALUES (2, 2); -- Pera Peric, London
 INSERT INTO user_destinations (user_id, destination_id) VALUES (2, 3); -- Pera Peric, Tokyo
 
+INSERT INTO user_destinations (user_id, destination_id) VALUES (6, 1); --  Mile Mile, Paris
+INSERT INTO user_destinations (user_id, destination_id) VALUES (6, 2); -- Mile Mile, London
+INSERT INTO user_destinations (user_id, destination_id) VALUES (6, 3); -- Mile Mile, Tokyo
+
 -- Insert data into the user_excursion_types table
 INSERT INTO user_excursion_types (user_id, excursion_type_id) VALUES (1, 1); -- Pera Peric, Excursion type 0
 INSERT INTO user_excursion_types (user_id, excursion_type_id) VALUES (1, 2); -- Pera Peric, Excursion type 1
@@ -65,6 +71,10 @@ INSERT INTO user_excursion_types (user_id, excursion_type_id) VALUES (2, 3); -- 
 INSERT INTO user_excursion_types (user_id, excursion_type_id) VALUES (3, 1); -- Pera Peric, Excursion type 0
 INSERT INTO user_excursion_types (user_id, excursion_type_id) VALUES (3, 2); -- Pera Peric, Excursion type 1
 INSERT INTO user_excursion_types (user_id, excursion_type_id) VALUES (3, 3); -- Pera Peric, Excursion type 2
+
+INSERT INTO user_excursion_types (user_id, excursion_type_id) VALUES (6, 1); -- Mile, Excursion type 0
+INSERT INTO user_excursion_types (user_id, excursion_type_id) VALUES (6, 2); -- Mile, Excursion type 1
+INSERT INTO user_excursion_types (user_id, excursion_type_id) VALUES (6, 3); -- Mile, Excursion type 2
 
 -- Insert Arrangement data
 

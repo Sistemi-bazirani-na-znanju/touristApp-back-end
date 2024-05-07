@@ -177,8 +177,27 @@ public class ArrangementService {
                     }
                     return arrangementsList;
                 } else {
-                    System.out.println("Nije prazno");
-                    return arrangementRepository.findAll();
+                    kieSession.dispose();
+                    kieSession = kieContainer.newKieSession("authNewUserSession");
+                    kieSession.addEventListener(new DebugAgendaEventListener());
+
+                    List<Arrangement> arrs = arrangementRepository.findAll();
+                    user.setDestinations(userRepository.findDestinationsByUserId(user.getId()));
+                    user.setExcursionTypes(userRepository.findExcursionTypesByUserId(user.getId()));
+                    user.setRatings(userRepository.findRatingsByUserId(user.getId()));
+                    for (Arrangement arr : arrs) {
+                        kieSession.insert(user);
+                        kieSession.insert(arr);
+                    }
+
+                    kieSession.fireAllRules();
+                    kieSession.dispose();
+
+//                    return arrs.stream()
+//                        .filter(Arrangement::isRecommended)
+//                        .collect(Collectors.toList());
+                    return arrs;
+
                 }
 
             }
