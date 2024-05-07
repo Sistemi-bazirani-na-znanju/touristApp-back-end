@@ -11,4 +11,18 @@
     <kbase name="collectKBase2" packages="unauthRules2">
         <ksession name="unauthSession2"/>
     </kbase>
+
+    <kbase name="authRules1" packages="authRules">
+        <ksession name="authSession1"/>
+    </kbase>
+
+    <kbase name="authRules2" packages="authRules">
+        <ksession name="authSession2"/>
+    </kbase>
+
+    <kbase name="authNewUserRules1" packages="authNewUserRules">
+        <ksession name="authNewUserSession"/>
+    </kbase>
+
+
 </kmodule>

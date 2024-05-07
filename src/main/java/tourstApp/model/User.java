@@ -1,78 +1,133 @@
-package tourstApp.model;
+    package tourstApp.model;
 
-import lombok.Data;
+    import lombok.Data;
+import tourstApp.converter.ListToStringConverter;
+import tourstApp.converter.ListToStringJsonConverter;
+
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+    import org.springframework.security.core.userdetails.UserDetails;
+
+import com.beust.jcommander.internal.Nullable;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+    import java.util.ArrayList;
+    import java.util.Collection;
+    import java.util.List;
 
-@Entity
-@Data
-@Table(name = "app_user")
-public class User implements UserDetails {
+    @Entity
+    @Data
+    @Table(name = "app_user")
+    public class User implements UserDetails {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
 
-    @Column(name = "email", nullable = false)
-    private String email;
+        @Column(name = "email", nullable = false)
+        private String email;
 
-    @Column(name = "password", nullable = false)
-    private String password;
+        @Column(name = "password", nullable = false)
+        private String password;
 
-    @Column(name = "firstName", nullable = false)
-    private String firstName;
+        @Column(name = "firstName", nullable = false)
+        private String firstName;
 
-    @Column(name = "lastName", nullable = false)
-    private String lastName;
+        @Column(name = "lastName", nullable = false)
+        private String lastName;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    private Role role;
+        @Column(name = "new", nullable = false)
+        @Nullable
+        private boolean isNew;
 
-    public User() {
+        @OneToOne(fetch = FetchType.EAGER)
+        private Role role;
+
+        @ManyToMany
+        @JoinTable(
+                name = "user_destinations",
+                joinColumns = @JoinColumn(name = "user_id"),
+                inverseJoinColumns = @JoinColumn(name = "destination_id")
+        )
+        private List<Destination> destinations;
+
+        @ManyToMany
+        @JoinTable(
+                name = "user_excursion_types",
+                joinColumns = @JoinColumn(name = "user_id"),
+                inverseJoinColumns = @JoinColumn(name = "excursion_type_id")
+        )
+        private List<ExcursionTypeClass> excursionTypes;
+
+        @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = javax.persistence.CascadeType.ALL)
+        private List<Rating> ratings;
+
+        public User() {
+        }
+
+        public User(Long id, String email, String password, String firstName, String lastName) {
+            this.id = id;
+            this.email = email;
+            this.password = password;
+            this.firstName = firstName;
+            this.lastName = lastName;
+        }
+
+        @Override
+        public Collection<? extends GrantedAuthority> getAuthorities() {
+            List<GrantedAuthority> authorities = new ArrayList<>();
+            authorities.add(this.role);
+            return authorities;
+        }
+
+        @Override
+        public String getUsername() {
+            return this.email;
+        }
+
+        public boolean getIsNew() {
+            return this.isNew;
+        }
+
+        public void setIsNew(boolean isNew) {
+            this.isNew = isNew;
+        }
+
+        public List<Destination> GetDestinations() {
+            return this.destinations;
+        }
+
+        public List<ExcursionTypeClass> GetExcursionTypes() {
+            return this.excursionTypes;
+        }
+
+        public List<ExcursionType> GetExcursionTypesFromClass() {
+            List<ExcursionType> exTypes = new ArrayList<>();
+            for(ExcursionTypeClass ex : this.excursionTypes){
+                exTypes.add(ex.getExcursionType());
+            }
+            return exTypes;
+        }
+
+        @Override
+        public boolean isAccountNonExpired() {
+            return true;
+        }
+
+        @Override
+        public boolean isAccountNonLocked() {
+            return true;
+        }
+
+        @Override
+        public boolean isCredentialsNonExpired() {
+            return true;
+        }
+
+        @Override
+        public boolean isEnabled() {
+            return true;
+        }
+
+        public List<ExcursionTypeClass> getExcursionTypes(){return this.excursionTypes;}
+        public List<Destination> getDestinations(){return this.destinations;}
     }
-
-    public User(Long id, String email, String password, String firstName, String lastName) {
-        this.id = id;
-        this.email = email;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(this.role);
-        return authorities;
-    }
-
-    @Override
-    public String getUsername() {
-        return this.email;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
-}

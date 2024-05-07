@@ -28,6 +28,7 @@ import tourstApp.dto.RatingDTO;
 import tourstApp.model.Arrangement;
 import tourstApp.model.Excursion;
 import tourstApp.model.Rating;
+import tourstApp.service.ArrangementAuthService;
 import tourstApp.service.ArrangementService;
 import tourstApp.service.RatingService;
 
@@ -40,6 +41,9 @@ public class ArrangementController {
     private ArrangementService arrangementService;
 
     @Autowired
+    private ArrangementAuthService arrangementAuthService;
+
+    @Autowired
     private RatingService ratingService;
 
     @Operation(summary = "Get all arrangements", description = "Gets all arrangements.", method = "GET")
@@ -48,9 +52,9 @@ public class ArrangementController {
                      content = @Content(mediaType = "application/json",
                      array = @ArraySchema(schema = @Schema(implementation = Arrangement.class))))
     })
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<ArrangementDTO>> getAll() {
-        List<Arrangement> arrangements = arrangementService.findAll();
+    @GetMapping(value = "findAll/{userId}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<ArrangementDTO>> getAll(@PathVariable Integer userId) {
+        List<Arrangement> arrangements = arrangementService.findAll(userId);
 
 
         List<ArrangementDTO> arrangementDTOs = new ArrayList<>();

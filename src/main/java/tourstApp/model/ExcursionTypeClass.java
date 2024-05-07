@@ -1,38 +1,29 @@
 package tourstApp.model;
 
-
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
-
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Rating extends GenericEntity{
+public class ExcursionTypeClass extends GenericEntity{
     
-    @ManyToOne
-    @JoinColumn(name = "arrangement_id")
-    private Arrangement arrangement;
-
-    @Column
+    @Column(name = "excursion_type")
     @NotNull
-    private double ratingValue;
+    private ExcursionType excursionType;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
+    @ManyToMany(mappedBy = "excursionTypes")
+    private List<User> users;
 
 }

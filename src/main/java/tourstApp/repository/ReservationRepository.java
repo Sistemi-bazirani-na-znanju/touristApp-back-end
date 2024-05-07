@@ -11,5 +11,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
 
     @Query("SELECT r.chosenExcursions FROM Reservation r WHERE r.id = :reservationId")
     List<Excursion> findExcursionsByReservationId(@Param("reservationId") Integer reservationId);
+
+
     
 }
