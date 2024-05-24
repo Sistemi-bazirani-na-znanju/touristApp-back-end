@@ -10,6 +10,7 @@ import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tourstApp.model.*;
 import tourstApp.repository.ArrangementRepository;
 import tourstApp.repository.ReservationRepository;
@@ -33,6 +34,7 @@ public class ArrangementService {
         return arrangementRepository.findById(id).orElse(null);
     }
 
+    @Transactional
     public List<Arrangement> findAll(Integer userID) {
 
         // Long userId = (long) 1;
@@ -193,10 +195,10 @@ public class ArrangementService {
                     kieSession.fireAllRules();
                     kieSession.dispose();
 
-//                    return arrs.stream()
-//                        .filter(Arrangement::isRecommended)
-//                        .collect(Collectors.toList());
-                    return arrs;
+                    return arrs.stream()
+                        .filter(Arrangement::isRecommended)
+                        .collect(Collectors.toList());
+//                    return arrs;
 
                 }
 

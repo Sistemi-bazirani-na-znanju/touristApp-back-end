@@ -72,15 +72,18 @@ INSERT INTO user_excursion_types (user_id, excursion_type_id) VALUES (3, 1); -- 
 INSERT INTO user_excursion_types (user_id, excursion_type_id) VALUES (3, 2); -- Pera Peric, Excursion type 1
 INSERT INTO user_excursion_types (user_id, excursion_type_id) VALUES (3, 3); -- Pera Peric, Excursion type 2
 
-INSERT INTO user_excursion_types (user_id, excursion_type_id) VALUES (6, 1); -- Mile, Excursion type 0
-INSERT INTO user_excursion_types (user_id, excursion_type_id) VALUES (6, 2); -- Mile, Excursion type 1
-INSERT INTO user_excursion_types (user_id, excursion_type_id) VALUES (6, 3); -- Mile, Excursion type 2
+INSERT INTO user_excursion_types (user_id, excursion_type_id) VALUES (6, 1); -- Mile, Excursion type HISTORICAL
+INSERT INTO user_excursion_types (user_id, excursion_type_id) VALUES (6, 2); -- Mile, Excursion type CULTURAL
+INSERT INTO user_excursion_types (user_id, excursion_type_id) VALUES (6, 3); -- Mile, Excursion type  GASTRONOMIC
 
 -- Insert Arrangement data
 
 INSERT INTO arrangement (name, type, price, average_rating, date, is_new, is_popular, is_recommended, recommendation_points, destination_id) VALUES ('Arrangement 2', 1, 1000.0, 1.0, '2024-03-03T00:00:00', FALSE, FALSE, FALSE, 0, 1);
+--Destination PARIS
 INSERT INTO arrangement (name, type, price, average_rating, date, is_new, is_popular, is_recommended, recommendation_points, destination_id) VALUES ('Arrangement 3', 1, 400.0, 3.0, '2023-03-03T00:00:00', FALSE, FALSE, FALSE, 0, 2);
+--Destination LONDON
 INSERT INTO arrangement (name, type, price, average_rating, date, is_new, is_popular, is_recommended, recommendation_points, destination_id) VALUES ('Arrangement 4', 1, 400.0, 4.0, '2024-03-03T00:00:00', FALSE, FALSE, FALSE, 0, 3);
+--Desination NEW YORK
 INSERT INTO arrangement (name, type, price, average_rating, date, is_new, is_popular, is_recommended, recommendation_points, destination_id) VALUES ('Arrangement 5', 1, 400.0, 4.0, '2024-03-03T00:00:00', FALSE, FALSE, FALSE, 0, 4);
 INSERT INTO arrangement (name, type, price, average_rating, date, is_new, is_popular, is_recommended, recommendation_points, destination_id) VALUES ('Arrangement 6', 1, 400.0, 4.0, '2024-03-03T00:00:00', FALSE, FALSE, FALSE, 0, 5);
 INSERT INTO arrangement (name, type, price, average_rating, date, is_new, is_popular, is_recommended, recommendation_points, destination_id) VALUES ('Arrangement 7', 1, 400.0, 4.0, '2024-03-03T00:00:00', FALSE, FALSE, FALSE, 0, 6);
@@ -91,17 +94,29 @@ INSERT INTO arrangement (name, type, price, average_rating, date, is_new, is_pop
 INSERT INTO arrangement (name, type, price, average_rating, date, is_new, is_popular, is_recommended, recommendation_points, destination_id) VALUES ('Arrangement 12', 1, 400.0, 4.0, '2024-03-03T00:00:00', FALSE, FALSE, FALSE, 0, 6);
 INSERT INTO arrangement (name, type, price, average_rating, date, is_new, is_popular, is_recommended, recommendation_points, destination_id) VALUES ('Arrangement 13', 1, 400.0, 2.0, '2024-03-03T00:00:00', FALSE, FALSE, FALSE, 0, 6);
 INSERT INTO arrangement (name, type, price, average_rating, date, is_new, is_popular, is_recommended, recommendation_points, destination_id) VALUES ('Arrangement 14', 1, 400.0, 4.0, '2024-03-03T00:00:00', FALSE, FALSE, FALSE, 0, 1);
+--Destination PARIS
 INSERT INTO arrangement (name, type, price, average_rating, date, is_new, is_popular, is_recommended, recommendation_points, destination_id) VALUES ('Arrangement 15', 1, 400.0, 4.0, '2024-03-03T00:00:00', FALSE, FALSE, FALSE, 0, 1);
 INSERT INTO arrangement (name, type, price, average_rating, date, is_new, is_popular, is_recommended, recommendation_points, destination_id) VALUES ('Arrangement 16', 1, 1000.0, 1.0, '2024-03-03T00:00:00', FALSE, FALSE, FALSE, 0, 1);
 INSERT INTO arrangement (name, type, price, average_rating, date, is_new, is_popular, is_recommended, recommendation_points, destination_id) VALUES ('Arrangement 17', 1, 400.0, 3.0, '2023-03-03T00:00:00', FALSE, FALSE, FALSE, 0, 1);
 INSERT INTO arrangement (name, type, price, average_rating, date, is_new, is_popular, is_recommended, recommendation_points, destination_id) VALUES ('Arrangement 18', 1, 400.0, 4.0, '2024-03-03T00:00:00', FALSE, FALSE, FALSE, 0, 1);
 INSERT INTO arrangement (name, type, price, average_rating, date, is_new, is_popular, is_recommended, recommendation_points, destination_id) VALUES ('Arrangement 19', 1, 400.0, 4.0, '2024-03-03T00:00:00', FALSE, FALSE, FALSE, 0, 1);
 INSERT INTO arrangement (name, type, price, average_rating, date, is_new, is_popular, is_recommended, recommendation_points, destination_id) VALUES ('Arrangement 20', 1, 400.0, 4.0, '2024-03-03T00:00:00', FALSE, FALSE, FALSE, 0, 1);
+
 INSERT INTO arrangement (name, type, price, average_rating, date, is_new, is_popular, is_recommended, recommendation_points, destination_id) VALUES ('Arrangement 21', 1, 400.0, 4.0, '2024-03-03T00:00:00', FALSE, FALSE, FALSE, 0, 1);
+--Destination PARIS
+
 INSERT INTO arrangement (name, type, price, average_rating, date, is_new, is_popular, is_recommended, recommendation_points, destination_id) VALUES ('Arrangement 22', 1, 400.0, 4.0, '2024-03-03T00:00:00', FALSE, FALSE, FALSE, 0, 1);
+--Destination PARIS
+
 INSERT INTO arrangement (name, type, price, average_rating, date, is_new, is_popular, is_recommended, recommendation_points, destination_id) VALUES ('Arrangement 23', 1, 400.0, 4.0, '2024-03-03T00:00:00', FALSE, FALSE, FALSE, 0, 1);
+--Destination PARIS
+
 INSERT INTO arrangement (name, type, price, average_rating, date, is_new, is_popular, is_recommended, recommendation_points, destination_id) VALUES ('Arrangement 24', 1, 400.0, 4.0, '2024-03-03T00:00:00', FALSE, FALSE, FALSE, 0, 1);
+--Destination PARIS
+
 INSERT INTO arrangement (name, type, price, average_rating, date, is_new, is_popular, is_recommended, recommendation_points, destination_id) VALUES ('Arrangement 25', 1, 400.0, 4.0, '2024-03-03T00:00:00', FALSE, FALSE, FALSE, 0, 1);
+--Destination PARIS
+
 INSERT INTO arrangement (name, type, price, average_rating, date, is_new, is_popular, is_recommended, recommendation_points, destination_id) VALUES ('Arrangement 26', 1, 400.0, 4.0, '2024-03-03T00:00:00', FALSE, FALSE, FALSE, 0, 1);
 INSERT INTO arrangement (name, type, price, average_rating, date, is_new, is_popular, is_recommended, recommendation_points, destination_id) VALUES ('Arrangement 27', 1, 400.0, 2.0, '2024-03-03T00:00:00', FALSE, FALSE, FALSE, 0, 1);
 INSERT INTO arrangement (name, type, price, average_rating, date, is_new, is_popular, is_recommended, recommendation_points, destination_id) VALUES ('Arrangement 28', 1, 400.0, 4.0, '2024-03-03T00:00:00', FALSE, FALSE, FALSE, 0, 1);
@@ -111,17 +126,31 @@ INSERT INTO arrangement (name, type, price, average_rating, date, is_new, is_pop
 
 
 
-INSERT INTO excursion (arrangement_id, name, price, type) VALUES (1, 'Excursion 1', 100.0, 3);
-INSERT INTO excursion (arrangement_id, name, price, type) VALUES (1, 'Excursion 2', 120.0, 1);
-INSERT INTO excursion (arrangement_id, name, price, type) VALUES (1, 'Excursion 3', 130.0, 0);
+INSERT INTO excursion (arrangement_id, name, price, type) VALUES (1, 'Excursion 1', 100.0, 3); --Arangment 2 - SPORTS
+INSERT INTO excursion (arrangement_id, name, price, type) VALUES (1, 'Excursion 2', 120.0, 1); --Arangment 2 - CULTURAL <--
+INSERT INTO excursion (arrangement_id, name, price, type) VALUES (1, 'Excursion 3', 130.0, 0); --Arangment 2 - HISTORICAL <--
 INSERT INTO excursion (arrangement_id, name, price, type) VALUES (2, 'Excursion 4', 200.0, 0);
 INSERT INTO excursion (arrangement_id, name, price, type) VALUES (2, 'Excursion 5', 150.0, 5);
 INSERT INTO excursion (arrangement_id, name, price, type) VALUES (2, 'Excursion 6', 180.0, 5);
-INSERT INTO excursion (arrangement_id, name, price, type) VALUES (3, 'Excursion 7', 100.0, 3);
-INSERT INTO excursion (arrangement_id, name, price, type) VALUES (3, 'Excursion 8', 4000.0, 4);
-INSERT INTO excursion (arrangement_id, name, price, type) VALUES (3, 'Excursion 9', 2500.0, 0);
-INSERT INTO excursion (arrangement_id, name, price, type) VALUES (3, 'Excursion 10', 600.0, 3);
-INSERT INTO excursion (arrangement_id, name, price, type) VALUES (3, 'Excursion 11', 750.0, 4);
+INSERT INTO excursion (arrangement_id, name, price, type) VALUES (3, 'Excursion 7', 100.0, 3); --Arangment 4 - SPORTS
+INSERT INTO excursion (arrangement_id, name, price, type) VALUES (3, 'Excursion 8', 4000.0, 4); --Arangment 4 - RELAXATION
+INSERT INTO excursion (arrangement_id, name, price, type) VALUES (3, 'Excursion 9', 2500.0, 0); --Arangment 4 - HISTORICAL <--
+INSERT INTO excursion (arrangement_id, name, price, type) VALUES (3, 'Excursion 10', 600.0, 2); --Arangment 4 - GASTRONOMIC <--
+INSERT INTO excursion (arrangement_id, name, price, type) VALUES (3, 'Excursion 11', 750.0, 4); --Arangment 4 - RELAXATION
+
+
+INSERT INTO excursion (arrangement_id, name, price, type) VALUES (20, 'Excursion 12', 750.0, 0); --Arangment 21 - HISTORICAL <--
+INSERT INTO excursion (arrangement_id, name, price, type) VALUES (20, 'Excursion 13', 750.0, 2); --Arangment 21 - GASTRONOMIC <--
+INSERT INTO excursion (arrangement_id, name, price, type) VALUES (20, 'Excursion 14', 750.0, 5); --Arangment 21 - DIVING
+INSERT INTO excursion (arrangement_id, name, price, type) VALUES (21, 'Excursion 15', 750.0, 0); --Arangment 22 - HISTORICAL <--
+INSERT INTO excursion (arrangement_id, name, price, type) VALUES (21, 'Excursion 16', 750.0, 1); --Arangment 22 - CULTURAL <--
+INSERT INTO excursion (arrangement_id, name, price, type) VALUES (21, 'Excursion 17', 750.0, 4); --Arangment 22 - RELAXATION
+INSERT INTO excursion (arrangement_id, name, price, type) VALUES (22, 'Excursion 18', 750.0, 1); --Arangment 23 - CULTURAL <--
+INSERT INTO excursion (arrangement_id, name, price, type) VALUES (22, 'Excursion 19', 750.0, 2); --Arangment 23 - GASTRONOMIC <--
+INSERT INTO excursion (arrangement_id, name, price, type) VALUES (23, 'Excursion 20', 750.0, 2); --Arangment 24 - GASTRONOMIC <--
+INSERT INTO excursion (arrangement_id, name, price, type) VALUES (23, 'Excursion 21', 750.0, 0); --Arangment 24 - HISTORICAL <--
+INSERT INTO excursion (arrangement_id, name, price, type) VALUES (24, 'Excursion 22', 750.0, 2); --Arangment 25 - GASTRONOMIC <--
+INSERT INTO excursion (arrangement_id, name, price, type) VALUES (24, 'Excursion 23', 750.0, 1); --Arangment 25 - CULTURAL <--
 
 INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (1, 4.8, 1);
 INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (1, 4.6, 1);
