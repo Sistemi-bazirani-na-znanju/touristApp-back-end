@@ -1,20 +1,22 @@
 INSERT INTO ROLE (id,name) VALUES (1,'ROLE_USER');
 INSERT INTO ROLE (id,name) VALUES (2,'ROLE_ADMIN');
 
-INSERT INTO app_user (first_name, last_name, email, password, role_id, new)VALUES ('Pera', 'Peric', 'peraperic@gmail.com', '$2a$10$nrCPz3vEZvmjlPeNbt4RQ.bSIngRXMlwMxfJJtp1Bhn.f0op9Zcui', 1, TRUE);
+INSERT INTO app_user (first_name, last_name, email, password, role_id, new, is_suspicious)VALUES ('Pera', 'Peric', 'peraperic@gmail.com', '$2a$10$nrCPz3vEZvmjlPeNbt4RQ.bSIngRXMlwMxfJJtp1Bhn.f0op9Zcui', 1, TRUE, false);
 --password je "password123"
 
-INSERT INTO app_user (first_name, last_name, email, password, role_id, new)VALUES ('Marko', 'Markovic', 'marko.markovic@gmail.com', '$2a$10$nrCPz3vEZvmjlPeNbt4RQ.bSIngRXMlwMxfJJtp1Bhn.f0op9Zcui', 1, TRUE); 
+INSERT INTO app_user(first_name, last_name, email, password, role_id, new, is_suspicious) VALUES ('Admin','Admin', 'admin@gmail.com', '$2a$10$nrCPz3vEZvmjlPeNbt4RQ.bSIngRXMlwMxfJJtp1Bhn.f0op9Zcui', 2, TRUE, false);
+
+INSERT INTO app_user (first_name, last_name, email, password, role_id, new, is_suspicious)VALUES ('Marko', 'Markovic', 'marko.markovic@gmail.com', '$2a$10$nrCPz3vEZvmjlPeNbt4RQ.bSIngRXMlwMxfJJtp1Bhn.f0op9Zcui', 1, TRUE, false);
 --password for Marko is "password123"
 
-INSERT INTO app_user (first_name, last_name, email, password, role_id, new)VALUES ('Ana', 'Anic', 'ana.anic@gmail.com', '$2a$10$nrCPz3vEZvmjlPeNbt4RQ.bSIngRXMlwMxfJJtp1Bhn.f0op9Zcui', 1, TRUE); 
+INSERT INTO app_user (first_name, last_name, email, password, role_id, new, is_suspicious)VALUES ('Ana', 'Anic', 'ana.anic@gmail.com', '$2a$10$nrCPz3vEZvmjlPeNbt4RQ.bSIngRXMlwMxfJJtp1Bhn.f0op9Zcui', 1, TRUE, false);
 
-INSERT INTO app_user (first_name, last_name, email, password, role_id, new)VALUES ('Zoki', 'Zanic', 'zoki.anic@gmail.com', '$2a$10$nrCPz3vEZvmjlPeNbt4RQ.bSIngRXMlwMxfJJtp1Bhn.f0op9Zcui', 1, TRUE); 
+INSERT INTO app_user (first_name, last_name, email, password, role_id, new, is_suspicious)VALUES ('Zoki', 'Zanic', 'zoki.anic@gmail.com', '$2a$10$nrCPz3vEZvmjlPeNbt4RQ.bSIngRXMlwMxfJJtp1Bhn.f0op9Zcui', 1, TRUE, false);
 --password for Ana is "password123"
 
-INSERT INTO app_user (first_name, last_name, email, password, role_id, new)VALUES ('Zika', 'Zikic', 'zika@gmail.com', '$2a$10$nrCPz3vEZvmjlPeNbt4RQ.bSIngRXMlwMxfJJtp1Bhn.f0op9Zcui', 1, TRUE);
+INSERT INTO app_user (first_name, last_name, email, password, role_id, new, is_suspicious)VALUES ('Zika', 'Zikic', 'zika@gmail.com', '$2a$10$nrCPz3vEZvmjlPeNbt4RQ.bSIngRXMlwMxfJJtp1Bhn.f0op9Zcui', 1, TRUE, false);
 
-INSERT INTO app_user (first_name, last_name, email, password, role_id, new)VALUES ('Mile', 'Mile', 'mile@gmail.com', '$2a$10$nrCPz3vEZvmjlPeNbt4RQ.bSIngRXMlwMxfJJtp1Bhn.f0op9Zcui', 1, TRUE);
+INSERT INTO app_user (first_name, last_name, email, password, role_id, new, is_suspicious)VALUES ('Mile', 'Mile', 'mile@gmail.com', '$2a$10$nrCPz3vEZvmjlPeNbt4RQ.bSIngRXMlwMxfJJtp1Bhn.f0op9Zcui', 1, TRUE, false);
 
 -- Insert destinations
 -- Insert destinations
