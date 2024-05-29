@@ -57,9 +57,9 @@ INSERT INTO user_destinations (user_id, destination_id) VALUES (2, 1); -- Pera P
 INSERT INTO user_destinations (user_id, destination_id) VALUES (2, 2); -- Pera Peric, London
 INSERT INTO user_destinations (user_id, destination_id) VALUES (2, 3); -- Pera Peric, Tokyo
 
-INSERT INTO user_destinations (user_id, destination_id) VALUES (6, 1); --  Mile Mile, Paris
-INSERT INTO user_destinations (user_id, destination_id) VALUES (6, 2); -- Mile Mile, London
-INSERT INTO user_destinations (user_id, destination_id) VALUES (6, 3); -- Mile Mile, Tokyo
+INSERT INTO user_destinations (user_id, destination_id) VALUES (6, 1); -- Zika, Paris
+INSERT INTO user_destinations (user_id, destination_id) VALUES (6, 2); -- Zika, London
+INSERT INTO user_destinations (user_id, destination_id) VALUES (6, 3); -- Zika, Tokyo
 
 -- Insert data into the user_excursion_types table
 INSERT INTO user_excursion_types (user_id, excursion_type_id) VALUES (1, 1); -- Pera Peric, Excursion type 0
