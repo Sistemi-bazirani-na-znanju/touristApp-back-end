@@ -49,13 +49,13 @@ INSERT INTO user_destinations (user_id, destination_id) VALUES (1, 1); -- Pera P
 INSERT INTO user_destinations (user_id, destination_id) VALUES (1, 2); -- Pera Peric, London
 INSERT INTO user_destinations (user_id, destination_id) VALUES (1, 3); -- Pera Peric, Tokyo
 
-INSERT INTO user_destinations (user_id, destination_id) VALUES (2, 1); -- Pera Peric, Paris
-INSERT INTO user_destinations (user_id, destination_id) VALUES (2, 2); -- Pera Peric, London
-INSERT INTO user_destinations (user_id, destination_id) VALUES (2, 3); -- Pera Peric, Tokyo
+INSERT INTO user_destinations (user_id, destination_id) VALUES (3, 1); -- Pera Peric, Paris
+INSERT INTO user_destinations (user_id, destination_id) VALUES (3, 2); -- Pera Peric, London
+INSERT INTO user_destinations (user_id, destination_id) VALUES (3, 3); -- Pera Peric, Tokyo
 
-INSERT INTO user_destinations (user_id, destination_id) VALUES (2, 1); -- Pera Peric, Paris
-INSERT INTO user_destinations (user_id, destination_id) VALUES (2, 2); -- Pera Peric, London
-INSERT INTO user_destinations (user_id, destination_id) VALUES (2, 3); -- Pera Peric, Tokyo
+INSERT INTO user_destinations (user_id, destination_id) VALUES (3, 1); -- Pera Peric, Paris
+INSERT INTO user_destinations (user_id, destination_id) VALUES (3, 2); -- Pera Peric, London
+INSERT INTO user_destinations (user_id, destination_id) VALUES (3, 3); -- Pera Peric, Tokyo
 
 INSERT INTO user_destinations (user_id, destination_id) VALUES (6, 1); -- Zika, Paris
 INSERT INTO user_destinations (user_id, destination_id) VALUES (6, 2); -- Zika, London
@@ -66,17 +66,17 @@ INSERT INTO user_excursion_types (user_id, excursion_type_id) VALUES (1, 1); -- 
 INSERT INTO user_excursion_types (user_id, excursion_type_id) VALUES (1, 2); -- Pera Peric, Excursion type 1
 INSERT INTO user_excursion_types (user_id, excursion_type_id) VALUES (1, 3); -- Pera Peric, Excursion type 2
 
-INSERT INTO user_excursion_types (user_id, excursion_type_id) VALUES (2, 1); -- Pera Peric, Excursion type 0
-INSERT INTO user_excursion_types (user_id, excursion_type_id) VALUES (2, 2); -- Pera Peric, Excursion type 1
-INSERT INTO user_excursion_types (user_id, excursion_type_id) VALUES (2, 3); -- Pera Peric, Excursion type 2
-
 INSERT INTO user_excursion_types (user_id, excursion_type_id) VALUES (3, 1); -- Pera Peric, Excursion type 0
 INSERT INTO user_excursion_types (user_id, excursion_type_id) VALUES (3, 2); -- Pera Peric, Excursion type 1
 INSERT INTO user_excursion_types (user_id, excursion_type_id) VALUES (3, 3); -- Pera Peric, Excursion type 2
 
-INSERT INTO user_excursion_types (user_id, excursion_type_id) VALUES (6, 1); -- Mile, Excursion type HISTORICAL
-INSERT INTO user_excursion_types (user_id, excursion_type_id) VALUES (6, 2); -- Mile, Excursion type CULTURAL
-INSERT INTO user_excursion_types (user_id, excursion_type_id) VALUES (6, 3); -- Mile, Excursion type  GASTRONOMIC
+INSERT INTO user_excursion_types (user_id, excursion_type_id) VALUES (4, 1); -- Pera Peric, Excursion type 0
+INSERT INTO user_excursion_types (user_id, excursion_type_id) VALUES (4, 2); -- Pera Peric, Excursion type 1
+INSERT INTO user_excursion_types (user_id, excursion_type_id) VALUES (4, 3); -- Pera Peric, Excursion type 2
+
+INSERT INTO user_excursion_types (user_id, excursion_type_id) VALUES (6, 1); -- Zika, Excursion type HISTORICAL
+INSERT INTO user_excursion_types (user_id, excursion_type_id) VALUES (6, 2); -- Zika, Excursion type CULTURAL
+INSERT INTO user_excursion_types (user_id, excursion_type_id) VALUES (6, 3); -- Zika, Excursion type  GASTRONOMIC
 
 -- Insert Arrangement data
 
@@ -158,23 +158,23 @@ INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (1, 4.8, 1);
 INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (1, 4.6, 1);
 INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (2, 4.2, 1);
 
-INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (1, 4.5, 2); -- Marko rates arrangement 1
-INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (2, 4.7, 2); -- Marko rates arrangement 2
-INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (3, 3.9, 2); -- Marko rates arrangement 3
+INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (1, 4.5, 3); -- Marko rates arrangement 1
+INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (2, 4.7, 3); -- Marko rates arrangement 2
+INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (3, 3.9, 3); -- Marko rates arrangement 3
 
 INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (7, 5.0, 1); -- Ana rates arrangement 1
-INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (7, 4.1, 2); -- Ana rates arrangement 3
-INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (7, 4.8, 3); -- Ana rates arrangement 4
-INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (7, 4.8, 4);
+INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (7, 4.1, 3); -- Ana rates arrangement 3
+INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (7, 4.8, 4); -- Ana rates arrangement 4
+INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (7, 4.8, 5);
 
 INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (8, 1.8, 1);
 INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (8, 1.6, 1);
 INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (8, 1.2, 1);
 
 INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (9, 4.8, 1);
-INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (9, 4.6, 2);
-INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (9, 4.2, 3);
-INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (9, 4.8, 4);
+INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (9, 4.6, 3);
+INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (9, 4.2, 4);
+INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (9, 4.8, 5);
 
 INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (11, 4.8, 1);
 INSERT INTO rating (arrangement_id, rating_value, user_id) VALUES (12, 4.6, 1);
