@@ -29,4 +29,7 @@ public interface ArrangementRepository extends JpaRepository<Arrangement, Intege
 
     @Query("SELECT r FROM Rating r")
     List<Rating> findAllRatings();
+
+    @Query("SELECT DISTINCT a FROM Arrangement a LEFT JOIN FETCH a.excursions LEFT JOIN FETCH a.destination")
+    List<Arrangement> findAllWithExcursionsAndDestinations();
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.hibernate.Hibernate;
 import org.kie.api.KieServices;
 import org.kie.api.event.rule.DebugAgendaEventListener;
 import org.kie.api.runtime.KieContainer;
@@ -34,7 +35,7 @@ public class ArrangementService {
         return arrangementRepository.findById(id).orElse(null);
     }
 
-    @Transactional
+
     public List<Arrangement> findAll(Integer userID) {
 
         // Long userId = (long) 1;
@@ -66,9 +67,9 @@ public class ArrangementService {
 
             kieSession.fireAllRules();
             kieSession.dispose();
-            for (Arrangement arr : arrangementsList) {
-                arrangementRepository.save(arr);
-            }
+//            for (Arrangement arr : arrangementsList) {
+//                arrangementRepository.save(arr);
+//            }
             return arrangementsList;
 
         } else {
@@ -174,16 +175,16 @@ public class ArrangementService {
 
                     kieSession.fireAllRules();
                     kieSession.dispose();
-                    for (Arrangement arr : arrangementsList) {
-                        arrangementRepository.save(arr);
-                    }
+//                    for (Arrangement arr : arrangementsList) {
+//                        arrangementRepository.save(arr);
+//                    }
                     return arrangementsList;
                 } else {
                     kieSession.dispose();
                     kieSession = kieContainer.newKieSession("authNewUserSession");
                     kieSession.addEventListener(new DebugAgendaEventListener());
 
-                    List<Arrangement> arrs = arrangementRepository.findAll();
+                    List<Arrangement> arrs = arrangementRepository.findAllWithExcursionsAndDestinations();
                     user.setDestinations(userRepository.findDestinationsByUserId(user.getId()));
                     user.setExcursionTypes(userRepository.findExcursionTypesByUserId(user.getId()));
                     user.setRatings(userRepository.findRatingsByUserId(user.getId()));

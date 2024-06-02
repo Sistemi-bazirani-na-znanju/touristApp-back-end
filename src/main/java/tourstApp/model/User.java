@@ -39,6 +39,9 @@ import javax.persistence.*;
         @Nullable
         private boolean isNew;
 
+        @Column(name = "is_suspicious")
+        private boolean isSuspicious;
+
         @OneToOne(fetch = FetchType.EAGER)
         private Role role;
 
